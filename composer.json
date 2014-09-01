@@ -1,6 +1,11 @@
 {
+    "name": "iakio/phpunit-smartrunner",
+    "description": "",
+    "keywords": ["phpunit"],
+    "license": "MIT",
+    "bin": ["bin/smartrunner"],
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "4.2.*"
     },
     "autoload": {
         "psr-0": {
