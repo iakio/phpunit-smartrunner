@@ -1,6 +1,12 @@
-#!env php
+#!/usr/bin/env php
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    // bin/smartrunner
+    require __DIR__ . '/../vendor/autoload.php';
+} else {
+    // vendor/iakio/phpunit-smartrunner/bin/smartrunner
+    require __DIR__ . '/../../../autoload.php';
+}
 $command = new iakio\phpunit\smartrunner\Command();
 $command->run($_SERVER['argv']);
 
