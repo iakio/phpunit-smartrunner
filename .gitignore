@@ -2,3 +2,4 @@
 *.phar
 .idea/
 vendor/
+behat_tests/
