@@ -9,4 +9,9 @@ class Utils
         return str_replace(realpath($root) . DIRECTORY_SEPARATOR, "", realpath($path));
     }
 
+    public static function isTestable($arg_file)
+    {
+        return preg_match('/.*Test\.php$/', $arg_file);
+    }
+
 } 

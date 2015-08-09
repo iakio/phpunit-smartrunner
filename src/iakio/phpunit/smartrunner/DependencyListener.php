@@ -13,10 +13,10 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
      */
     private $cache;
 
-    public function __construct(Cache $cache)
+    public function __construct()
     {
         $this->root = getcwd();
-        $this->cache = $cache;
+        $this->cache = new Cache(".smartrunner.cache");
         $this->cache->loadCache();
     }
 
