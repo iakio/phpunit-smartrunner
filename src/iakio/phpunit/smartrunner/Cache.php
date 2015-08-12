@@ -24,16 +24,13 @@ class Cache
     public function loadCache()
     {
         if (file_exists($this->cache_file)) {
-            $this->cache = include $this->cache_file;
+            $this->cache = json_decode(file_get_contents($this->cache_file), true);
         }
     }
 
     public function saveCache()
     {
-        file_put_contents(
-            $this->cache_file,
-            '<?php return ' . var_export($this->cache, true) . ';'
-        );
+        file_put_contents($this->cache_file, json_encode($this->cache, JSON_PRETTY_PRINT));
     }
 
     public function add($key, $val)
