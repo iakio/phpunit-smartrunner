@@ -26,16 +26,23 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         xdebug_start_code_coverage();
     }
 
+
+    private function isVendorFile($file) {
+        return (strpos(Utils::normalizePath($this->root, $file), "vendor" . DIRECTORY_SEPARATOR) === 0);
+    }
+
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
         $class  = new ReflectionClass($test);
         $testFile = $class->getFileName();
-        $files = array_keys(xdebug_get_code_coverage());
-        foreach ($files as $sut) {
-            $this->cache->add(
-                Utils::normalizePath($this->root, $sut),
-                Utils::normalizePath($this->root, $testFile)
-            );
+        $executedFiles = array_keys(xdebug_get_code_coverage());
+        foreach ($executedFiles as $executedFile) {
+            if (!$this->isVendorFile($executedFile)) {
+                $this->cache->add(
+                    Utils::normalizePath($this->root, $executedFile),
+                    Utils::normalizePath($this->root, $testFile)
+                );
+            }
         }
         xdebug_stop_code_coverage();
     }
