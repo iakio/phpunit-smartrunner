@@ -13,7 +13,7 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 $argv = $_SERVER['argv'];
 
 if (count($argv) > 1) {
-    $cache = new iakio\phpunit\smartrunner\Cache(".smartrunner.cache.json");
+    $cache = new iakio\phpunit\smartrunner\Cache(".smartrunner/cache.json");
     $cache->loadCache();
     $arg_file = Utils::normalizePath(getcwd(), $argv[1]);
     if ($hits = $cache->get($arg_file)) {

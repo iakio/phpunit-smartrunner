@@ -30,6 +30,9 @@ class Cache
 
     public function saveCache()
     {
+        if (!is_dir(dirname($this->cache_file))) {
+            mkdir(dirname($this->cache_file));
+        }
         file_put_contents($this->cache_file, json_encode($this->cache, JSON_PRETTY_PRINT));
     }
 
