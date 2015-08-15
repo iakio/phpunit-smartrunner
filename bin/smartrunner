@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 use iakio\phpunit\smartrunner\Utils;
+use iakio\phpunit\smartrunner\FileSystem;
+use iakio\phpunit\smartrunner\Cache;
 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     // bin/smartrunner
@@ -13,9 +15,10 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 $argv = $_SERVER['argv'];
 
 if (count($argv) > 1) {
-    $cache = new iakio\phpunit\smartrunner\Cache(".smartrunner/cache.json");
+    $cache = Cache::instance();
     $cache->loadCache();
-    $arg_file = Utils::normalizePath(getcwd(), $argv[1]);
+    $fs = new FileSystem(getcwd());
+    $arg_file = $fs->normalizePath($argv[1]);
     if ($hits = $cache->get($arg_file)) {
         foreach ($hits as $hit) {
             system(implode(DIRECTORY_SEPARATOR, ["vendor", "bin", "phpunit"]) . " " . $hit);

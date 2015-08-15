@@ -15,8 +15,8 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
 
     public function __construct()
     {
-        $this->root = getcwd();
-        $this->cache = new Cache(".smartrunner/cache.json");
+        $this->fs = new FileSystem(getcwd());
+        $this->cache = Cache::instance();
         $this->cache->loadCache();
     }
 
@@ -28,7 +28,7 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
 
 
     private function isVendorFile($file) {
-        return (strpos(Utils::normalizePath($this->root, $file), "vendor" . DIRECTORY_SEPARATOR) === 0);
+        return (strpos($this->fs->normalizePath($file), "vendor" . DIRECTORY_SEPARATOR) === 0);
     }
 
     public function endTest(PHPUnit_Framework_Test $test, $time)
@@ -39,8 +39,8 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         foreach ($executedFiles as $executedFile) {
             if (!$this->isVendorFile($executedFile)) {
                 $this->cache->add(
-                    Utils::normalizePath($this->root, $executedFile),
-                    Utils::normalizePath($this->root, $testFile)
+                    $this->fs->normalizePath($executedFile),
+                    $this->fs->normalizePath($testFile)
                 );
             }
         }

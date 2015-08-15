@@ -15,9 +15,17 @@ class Cache
      */
     private $cache_file;
 
+    const CACHE_FILE = '.smartrunner/cache.json';
+
+
+    public static function instance()
+    {
+        return new self(self::CACHE_FILE);
+    }
+
     public function __construct($cache_file)
     {
-        $this->cache = array();
+        $this->cache = [];
         $this->cache_file = $cache_file;
     }
 
