@@ -16,7 +16,7 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
     public function __construct()
     {
         $this->fs = new FileSystem(getcwd());
-        $this->cache = Cache::instance();
+        $this->cache = new Cache($this->fs);
         $this->cache->loadCache();
     }
 

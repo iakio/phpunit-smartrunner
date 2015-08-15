@@ -11,37 +11,24 @@ class Cache
     private $cache;
 
     /**
-     * @var string
+     * @var FileSystem
      */
-    private $cache_file;
+    private $fs;
 
-    const CACHE_FILE = '.smartrunner/cache.json';
-
-
-    public static function instance()
-    {
-        return new self(self::CACHE_FILE);
-    }
-
-    public function __construct($cache_file)
+    public function __construct(FileSystem $fs)
     {
         $this->cache = [];
-        $this->cache_file = $cache_file;
+        $this->fs = $fs;
     }
 
     public function loadCache()
     {
-        if (file_exists($this->cache_file)) {
-            $this->cache = json_decode(file_get_contents($this->cache_file), true);
-        }
+        $this->cache = $this->fs->loadCache();
     }
 
     public function saveCache()
     {
-        if (!is_dir(dirname($this->cache_file))) {
-            mkdir(dirname($this->cache_file));
-        }
-        file_put_contents($this->cache_file, json_encode($this->cache, JSON_PRETTY_PRINT));
+        $this->fs->saveCache($this->cache);
     }
 
     public function add($key, $val)
