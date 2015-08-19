@@ -19,11 +19,12 @@ if (count($argv) > 1) {
     $cache = new Cache($fs);
     $cache->loadCache();
     $arg_file = $fs->normalizePath($argv[1]);
-    if ($hits = $cache->get($arg_file)) {
-        foreach ($hits as $hit) {
-            system(implode(DIRECTORY_SEPARATOR, ["vendor", "bin", "phpunit"]) . " " . $hit);
-        }
-    } else if (Utils::isTestable($arg_file)) {
-        system(implode(DIRECTORY_SEPARATOR, ["vendor", "bin", "phpunit"]) . " " . $arg_file);
+    $hits = $cache->get($arg_file);
+    if (count($hits) === 0 && Utils::isTestable($arg_file)) {
+        $hits = [$arg_file];
+    }
+    if (count($hits) > 0) {
+        $fs->saveSuiteFile($hits);
+        system(implode(DIRECTORY_SEPARATOR, ["vendor", "bin", "phpunit"]) . " SmartrunnerSuite .smartrunner/suite.php");
     }
 }

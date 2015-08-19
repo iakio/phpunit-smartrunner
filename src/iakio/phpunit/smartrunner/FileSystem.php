@@ -8,9 +8,11 @@ class FileSystem
      */
     private $root;
 
+    const CACHE_DIR = '.smartrunner';
+
     const CACHE_FILE = 'cache.json';
 
-    const CACHE_DIR = '.smartrunner';
+    const SUITE_FILE = 'suite.php';
 
     public function __construct($root)
     {
@@ -24,11 +26,16 @@ class FileSystem
         return str_replace(realpath($this->root) . DIRECTORY_SEPARATOR, "", realpath($path));
     }
 
-    public function saveCache($cache_data)
+    private function ensureDirectory()
     {
         if (!is_dir($this->cache_dir)) {
             mkdir($this->cache_dir);
         }
+    }
+
+    public function saveCache($cache_data)
+    {
+        $this->ensureDirectory();
         file_put_contents($this->cache_file, json_encode($cache_data, JSON_PRETTY_PRINT));
     }
 
@@ -38,5 +45,23 @@ class FileSystem
             return json_decode(file_get_contents($this->cache_file), true);
         }
         return [];
+    }
+
+    public function saveSuiteFile($files)
+    {
+        $this->ensureDirectory();
+        $addtest = implode("\n        ", array_map(function ($file) {
+            return "\$suite->addTestFile(" . var_export($file, true) . ");";
+        }, $files));
+        $suite = <<<EOD
+<?php class SmartrunnerSuite {
+    public static function suite() {
+        \$suite = new PHPUnit_Framework_TestSuite('Smartrunner');
+        $addtest
+        return \$suite;
+    }
+}
+EOD;
+        file_put_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . self::SUITE_FILE, $suite);
     }
 }
