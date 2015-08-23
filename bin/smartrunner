@@ -1,8 +1,6 @@
 #!/usr/bin/env php
 <?php
-use iakio\phpunit\smartrunner\Utils;
-use iakio\phpunit\smartrunner\FileSystem;
-use iakio\phpunit\smartrunner\Cache;
+use iakio\phpunit\smartrunner\SmartRunner;
 
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     // bin/smartrunner
@@ -12,19 +10,4 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require __DIR__ . '/../../../autoload.php';
 }
 
-$argv = $_SERVER['argv'];
-
-if (count($argv) > 1) {
-    $fs = new FileSystem(getcwd());
-    $cache = new Cache($fs);
-    $cache->loadCache();
-    $arg_file = $fs->normalizePath($argv[1]);
-    $hits = $cache->get($arg_file);
-    if (count($hits) === 0 && Utils::isTestable($arg_file)) {
-        $hits = [$arg_file];
-    }
-    if (count($hits) > 0) {
-        $fs->saveSuiteFile($hits);
-        system(implode(DIRECTORY_SEPARATOR, ["vendor", "bin", "phpunit"]) . " SmartrunnerSuite .smartrunner/suite.php");
-    }
-}
+SmartRunner::run($_SERVER['argv']);
