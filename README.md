@@ -12,7 +12,19 @@ phpunit-smartrunner
 $ vendor/bin/smartrunner init
 ```
 
-then, run smartrunner with your favorite IDE, edotir or filesystem watcher.
+This creates `.smartrunner/phpunit.xml.dist` file. If you already have
+some test conde, and you want to store all dependencies between
+SUTs and tests certainly, you can run phpunit with this file.
+
+```
+$ vendor/bin/phpunit -c .smartrunner/phpunit.xml.dist tests
+```
+
+Then, run smartrunner from your favorite IDE, edotir or filesystem watcher.
+
+```
+$ vendor/bin/smartrunner run src/Calc.php
+```
 
 ## watchy
 
