@@ -4,8 +4,10 @@
     "keywords": ["phpunit"],
     "license": "MIT",
     "authors": [
-        "name": "ISHIDA Akio",
-        "email": "iakio.monospacenet@gmail.com"
+        {
+            "name": "ISHIDA Akio",
+            "email": "iakio.monospacenet@gmail.com"
+        }
     ],
     "bin": ["bin/smartrunner"],
     "require": {
