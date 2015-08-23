@@ -78,4 +78,19 @@ EOD;
         $this->ensureDirectory();
         file_put_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'phpunit.xml.dist', $config);
     }
+
+    public function saveConfigFile(array $config)
+    {
+        $this->ensureDirectory();
+        file_put_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'config.json', json_encode($config, JSON_PRETTY_PRINT));
+    }
+
+    public function loadConfig()
+    {
+        if (file_exists(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'config.json')) {
+            return json_decode(file_get_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'config.json'), true);
+        }
+        return [];
+    }
+
 }
