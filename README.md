@@ -1,26 +1,25 @@
 phpunit-smartrunner
 ===================
 
+* When `smartrunner` is invoked with an argument `CalcTest.php`, it runs `CalcTest.php` test case.
+* When `smartrunner` is invoked with an argument `Calc.php`, it also runs `CalcTest.php`. And it may runs some additional test case related to `Calc.php`.
+
+`smartrunner` resolves dependencies between SUT and test case using xdebug profilier information.
+
 # Usage
 
-Add listener in your phpunit.xml(.dist) file.
-
 ```
-<phpunit>
-    <listeners>
-        <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
-    </listeners>
-</phpunit>
+$ vendor/bin/smartrunner init
 ```
 
-then, run smartrunner with your favorite filesystem watcher.
+then, run smartrunner with your favorite IDE, edotir or filesystem watcher.
 
 ## watchy
 
 ```
-$ watchy -w . -- bash -c 'vendor/bin/smartrunner $FILE'
+$ watchy -w . -- bash -c 'vendor/bin/smartrunner run $FILE'
 or
-> watchy -w . -- cmd /C "vendor\bin\smartrunner %FILE%"
+> watchy -w . -- cmd /C "vendor\bin\smartrunner run %FILE%"
 ```
 
 ## grunt
@@ -32,7 +31,7 @@ module.exports = function (grunt) {
             smartrunner: {
                 file: "",
                 command: function () {
-                    return "vendor/bin/smartrunner " +
+                    return "vendor/bin/smartrunner run " +
                         grunt.config.get('shell.smartrunner.file');
                 }
             }

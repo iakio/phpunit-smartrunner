@@ -4,6 +4,13 @@ namespace iakio\phpunit\smartrunner;
 
 class SmartRunner
 {
+
+    public function initCommand()
+    {
+        $fs = new FileSystem(getcwd());
+        $fs->savePhpUnitConfig();
+    }
+
     public function runCommand($file_name)
     {
         $fs = new FileSystem(getcwd());
@@ -16,7 +23,9 @@ class SmartRunner
         }
         if (count($hits) > 0) {
             $fs->saveSuiteFile($hits);
-            system(implode(DIRECTORY_SEPARATOR, ["vendor", "bin", "phpunit"]) . " SmartrunnerSuite .smartrunner/suite.php");
+
+            $command = implode(DIRECTORY_SEPARATOR, ["vendor", "bin", "phpunit"]);
+            system("$command -c .smartrunner/phpunit.xml.dist  SmartrunnerSuite .smartrunner/suite.php");
         }
     }
 
@@ -24,8 +33,14 @@ class SmartRunner
     public static function run(array $argv)
     {
         $runner = new self;
-        if (count($argv) > 1) {
-            $runner->runCommand($argv[1]);
+        if (count($argv) <= 1) {
+            return;
+        }
+        $command = $argv[1];
+        if ($command === "run") {
+            $runner->runCommand($argv[2]);
+        } else if ($command === "init") {
+            $runner->initCommand();
         }
     }
 

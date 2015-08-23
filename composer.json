@@ -1,10 +1,15 @@
 {
     "name": "iakio/phpunit-smartrunner",
-    "description": "",
+    "description": "Run phpunit ondemand.",
     "keywords": ["phpunit"],
     "license": "MIT",
+    "authors": [
+        "name": "ISHIDA Akio",
+        "email": "iakio.monospacenet@gmail.com"
+    ],
     "bin": ["bin/smartrunner"],
     "require": {
+        "php": ">=5.4",
         "ext-xdebug": "*"
     },
     "autoload": {
