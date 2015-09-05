@@ -1,5 +1,7 @@
 language: php
 
+sudo: false
+
 before_script:
     - composer self-update
 
