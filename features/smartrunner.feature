@@ -13,3 +13,13 @@ Feature:
         And I run smartrunner with argument "run features/fixtures/src/Calc.php"
         Then 2 tests and 2 assertions should be executed
 
+    Scenario: Using phpunit.phar
+        Given I have phpunit.phar file
+        And I set up my configuration file as
+          """
+          {
+              "phpunit": "php phpunit.phar"
+          }
+          """
+        When I run smartrunner with argument "run features/fixtures/tests/CalcTest.php"
+        Then 1 test and 1 assertion should be executed

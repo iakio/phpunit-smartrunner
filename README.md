@@ -66,9 +66,15 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-shell');
 };
 ```
+# Configuration
 
+If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
 
-# Integration
+```
+{
+    "phpunit": "php phpunit.phar"
+}
+```
 
 # Requirement
 

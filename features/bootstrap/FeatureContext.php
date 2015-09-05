@@ -60,4 +60,26 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         PHPUnit_Framework_Assert::assertRegExp("/OK \\($tests tests?, $assertions assertions?\\)/", $this->output);
     }
+
+    /**
+     * @When I have phpunit.phar file
+     */
+    public function iHavePhpunitPharFile()
+    {
+        if (!file_exists("phpunit.phar")) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, 'https://phar.phpunit.de/phpunit.phar');
+            curl_setopt($ch, CURLOPT_FILE, fopen('phpunit.phar', 'w'));
+            curl_setopt($ch, CURLOPT_NOPROGRESS, false);
+            curl_exec($ch);
+        }
+    }
+
+    /**
+     * @When I set up my configuration file as
+     */
+    public function iSetUpMyConfigurationFileAs(PyStringNode $string)
+    {
+        file_put_contents(".smartrunner/config.json", (string) $string);
+    }
 }
