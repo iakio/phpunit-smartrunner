@@ -2,12 +2,12 @@
 <?php
 use iakio\phpunit\smartrunner\SmartRunner;
 
-if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
-    // bin/smartrunner
-    require __DIR__ . '/../vendor/autoload.php';
-} else {
+if (file_exists(__DIR__ . '/../../../autoload.php')) {
     // vendor/iakio/phpunit-smartrunner/bin/smartrunner
     require __DIR__ . '/../../../autoload.php';
+} else {
+    // bin/smartrunner
+    require __DIR__ . '/../vendor/autoload.php';
 }
 
 SmartRunner::run($_SERVER['argv']);
