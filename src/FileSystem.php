@@ -1,6 +1,8 @@
 <?php
 namespace iakio\phpunit\smartrunner;
 
+use Webmozart\PathUtil\Path;
+
 class FileSystem
 {
     /**
@@ -23,7 +25,7 @@ class FileSystem
 
     public function normalizePath($path)
     {
-        return str_replace(realpath($this->root) . DIRECTORY_SEPARATOR, "", realpath($path));
+        return Path::makeRelative(realpath($path), $this->root);
     }
 
     private function ensureDirectory()
