@@ -4,6 +4,7 @@ namespace iakio\phpunit\smartrunner;
 use PHPUnit_Framework_Test;
 use PHPUnit_Framework_TestSuite;
 use ReflectionClass;
+use Webmozart\PathUtil\Path;
 
 
 class DependencyListener extends \PHPUnit_Framework_BaseTestListener
@@ -28,7 +29,7 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
 
 
     private function isVendorFile($file) {
-        return (strpos($this->fs->normalizePath($file), "vendor" . DIRECTORY_SEPARATOR) === 0);
+        return Path::isBasePath("vendor", $this->fs->normalizePath($file));
     }
 
     public function endTest(PHPUnit_Framework_Test $test, $time)
