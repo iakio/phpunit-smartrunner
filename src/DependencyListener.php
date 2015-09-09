@@ -28,7 +28,10 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
     }
 
 
-    private function isVendorFile($file) {
+    private function isIgnored($file) {
+        if (strpos($file, 'phar://') === 0) {
+            return true;
+        }
         return Path::isBasePath("vendor", $this->fs->normalizePath($file));
     }
 
@@ -38,7 +41,7 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         $testFile = $class->getFileName();
         $executedFiles = array_keys(xdebug_get_code_coverage());
         foreach ($executedFiles as $executedFile) {
-            if (!$this->isVendorFile($executedFile)) {
+            if (!$this->isIgnored($executedFile)) {
                 $this->cache->add(
                     $this->fs->normalizePath($executedFile),
                     $this->fs->normalizePath($testFile)
