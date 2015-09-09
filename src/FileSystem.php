@@ -23,7 +23,7 @@ class FileSystem
         $this->cache_file = $this->cache_dir . DIRECTORY_SEPARATOR . self::CACHE_FILE;
     }
 
-    public function normalizePath($path)
+    public function relativePath($path)
     {
         return Path::makeRelative(realpath($path), $this->root);
     }

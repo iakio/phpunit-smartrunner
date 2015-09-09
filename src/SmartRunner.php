@@ -25,7 +25,7 @@ class SmartRunner
         $config = $fs->loadConfig();
         $cache = new Cache($fs);
         $cache->loadCache();
-        $arg_file = $fs->normalizePath($file_name);
+        $arg_file = $fs->relativePath($file_name);
         $hits = $cache->get($arg_file);
         if (count($hits) === 0 && self::isTestable($arg_file)) {
             $hits = [$arg_file];

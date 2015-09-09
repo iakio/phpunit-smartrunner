@@ -48,8 +48,8 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         foreach ($executedFiles as $executedFile) {
             if (!$this->isIgnored($executedFile)) {
                 $this->cache->add(
-                    $this->fs->normalizePath($executedFile),
-                    $this->fs->normalizePath($testFile)
+                    $this->fs->relativePath($executedFile),
+                    $this->fs->relativePath($testFile)
                 );
             }
         }
