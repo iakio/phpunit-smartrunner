@@ -82,4 +82,13 @@ class FeatureContext implements Context, SnippetAcceptingContext
     {
         file_put_contents(".smartrunner/config.json", (string) $string);
     }
+
+    /**
+     * @Then Cache should contain :num entries
+     */
+    public function cacheShouldContainEntries($num)
+    {
+        $cache = json_decode(file_get_contents(".smartrunner/cache.json"), true);
+        PHPUnit_Framework_Assert::assertEquals($num, count($cache));
+    }
 }

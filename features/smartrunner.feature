@@ -12,6 +12,7 @@ Feature:
         And I run smartrunner with argument "run features/fixtures/tests/OtherTest.php"
         And I run smartrunner with argument "run features/fixtures/src/Calc.php"
         Then 2 tests and 2 assertions should be executed
+        And Cache should contain 4 entries
 
     Scenario: Using phpunit.phar
         Given I have phpunit.phar file
@@ -25,3 +26,4 @@ Feature:
         And I run smartrunner with argument "run features/fixtures/tests/OtherTest.php"
         And I run smartrunner with argument "run features/fixtures/src/Calc.php"
         Then 2 tests and 2 assertions should be executed
+        And Cache should contain 4 entries

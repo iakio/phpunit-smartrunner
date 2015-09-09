@@ -4,6 +4,7 @@ namespace iakio\phpunit\smartrunner;
 use PHPUnit_Framework_Test;
 use PHPUnit_Framework_TestSuite;
 use ReflectionClass;
+use Webmozart\Glob\Glob;
 use Webmozart\PathUtil\Path;
 
 
@@ -32,7 +33,11 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         if (strpos($file, 'phar://') === 0) {
             return true;
         }
-        return Path::isBasePath("vendor", $this->fs->normalizePath($file));
+        $canonical_path = Path::canonicalize($file);
+        if (Glob::match($canonical_path, Path::makeAbsolute('vendor/**/*', getcwd()))) {
+            return true;
+        }
+        return false;
     }
 
     public function endTest(PHPUnit_Framework_Test $test, $time)
