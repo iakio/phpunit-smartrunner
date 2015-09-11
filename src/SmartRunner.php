@@ -8,7 +8,10 @@ class SmartRunner
     private function defaultConfig()
     {
         return [
-            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin' , 'phpunit'])
+            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin' , 'phpunit']),
+            'cacheignores' => [
+                'vendor/**/*'
+            ]
         ];
     }
 

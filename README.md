@@ -72,7 +72,8 @@ If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
 
 ```
 {
-    "phpunit": "php phpunit.phar"
+    "phpunit": "php phpunit.phar",
+    "cacheignores": []
 }
 ```
 
@@ -80,4 +81,3 @@ If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
 
 - xdebug
 
-# Limitation

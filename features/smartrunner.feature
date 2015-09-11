@@ -19,7 +19,8 @@ Feature:
         And I set up my configuration file as
           """
           {
-              "phpunit": "php phpunit.phar --bootstrap=vendor/autoload.php"
+              "phpunit": "php phpunit.phar --bootstrap=vendor/autoload.php",
+              "cacheignores": []
           }
           """
         When I run smartrunner with argument "run features/fixtures/tests/CalcTest.php"

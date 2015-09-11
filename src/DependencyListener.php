@@ -10,16 +10,21 @@ use Webmozart\PathUtil\Path;
 
 class DependencyListener extends \PHPUnit_Framework_BaseTestListener
 {
-    /**
-     * @var Cache
-     */
+    /** @var FileSystem */
+    private $fs;
+
+    /** @var Cache */
     private $cache;
+
+    /** @var array */
+    private $config;
 
     public function __construct()
     {
         $this->fs = new FileSystem(getcwd());
         $this->cache = new Cache($this->fs);
         $this->cache->loadCache();
+        $this->config = $this->fs->loadConfig();
     }
 
 
@@ -34,8 +39,10 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
             return true;
         }
         $canonical_path = Path::canonicalize($file);
-        if (Glob::match($canonical_path, Path::makeAbsolute('vendor/**/*', getcwd()))) {
-            return true;
+        foreach ($this->config['cacheignores'] as $pattern) {
+            if (Glob::match($canonical_path, Path::makeAbsolute($pattern, getcwd()))) {
+                return true;
+            }
         }
         return false;
     }
