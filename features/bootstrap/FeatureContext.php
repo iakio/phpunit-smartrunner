@@ -91,4 +91,21 @@ class FeatureContext implements Context, SnippetAcceptingContext
         $cache = json_decode(file_get_contents(".smartrunner/cache.json"), true);
         PHPUnit_Framework_Assert::assertEquals($num, count($cache));
     }
+
+    /**
+     * @Given I run smartrunner.phar with argument :arg
+     */
+    public function iRunSmartrunnerPharWithArgument($arg)
+    {
+        exec("php smartrunner.phar $arg", $output);
+        $this->output = trim(implode("\n", $output));
+    }
+
+    /**
+     * @Given I have :file file as
+     */
+    public function iHaveFileAs($file, PyStringNode $string)
+    {
+        file_put_contents($file, (string) $string);
+    }
 }
