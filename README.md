@@ -81,7 +81,9 @@ If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
 ```
 {
     "phpunit": "php phpunit.phar",
-    "cacheignores": []
+    "cacheignores": [
+        "vendor\/**\/*"
+    ]
 }
 ```
 

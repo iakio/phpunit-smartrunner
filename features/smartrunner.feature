@@ -20,7 +20,9 @@ Feature:
           """
           {
               "phpunit": "php phpunit.phar --bootstrap=vendor/autoload.php",
-              "cacheignores": []
+              "cacheignores": [
+                  "vendor\/**\/*"
+              ]
           }
           """
         When I run smartrunner with argument "run features/fixtures/tests/CalcTest.php"
