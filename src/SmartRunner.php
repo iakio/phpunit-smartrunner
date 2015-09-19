@@ -24,11 +24,11 @@ class SmartRunner
 
     public function runCommand($argv)
     {
-        if (count($argv) < 3) {
+        if (count($argv) === 0) {
             $this->usage();
             return;
         }
-        $file_name = $argv[2];
+        $file_name = array_shift($argv);
         $fs = new FileSystem(getcwd());
         $config = $fs->loadConfig();
         $cache = new Cache($fs);
@@ -55,11 +55,12 @@ class SmartRunner
     public static function run(array $argv)
     {
         $runner = new self;
-        if (count($argv) <= 1) {
+        array_shift($argv);
+        if (count($argv) === 0) {
             self::usage();
             return;
         }
-        $command = $argv[1];
+        $command = array_shift($argv);
         if ($command === "run") {
             $runner->runCommand($argv);
         } else if ($command === "init") {
