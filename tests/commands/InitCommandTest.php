@@ -3,21 +3,16 @@ namespace iakio\phpunit\smartrunner\commands\tests;
 
 use iakio\phpunit\smartrunner\commands\InitCommand;
 use iakio\phpunit\smartrunner\FileSystem;
+use org\bovigo\vfs\vfsStream;
 
 class InitCommandTest extends \PHPUnit_Framework_TestCase
 {
     function test_create_configuration_files()
     {
-        $root = __DIR__ . '/../tmp';
-        $cache_dir = realpath($root . '/.smartrunner');
+        $root = vfsStream::setup();
+        $cache_dir = $root->url() . '/.smartrunner';
 
-        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
-            exec("rd /S /Q $cache_dir");
-        } else {
-            exec("rm -rf $cache_dir");
-        }
-        @mkdir($root);
-        $fs = new FileSystem($root);
+        $fs = new FileSystem($root->url());
 
         $command = new InitCommand($fs);
         $command->run();
