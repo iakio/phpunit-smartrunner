@@ -95,8 +95,8 @@ EOD;
 
     public function loadConfig()
     {
-        if (file_exists(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'config.json')) {
-            return json_decode(file_get_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'config.json'), true);
+        if (file_exists($this->config_file)) {
+            return json_decode(file_get_contents($this->config_file), true);
         }
         return [];
     }
