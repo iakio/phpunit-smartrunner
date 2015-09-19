@@ -22,8 +22,13 @@ class SmartRunner
         $fs->saveConfigFile($this->defaultConfig());
     }
 
-    public function runCommand($file_name)
+    public function runCommand($argv)
     {
+        if (count($argv) < 3) {
+            $this->usage();
+            return;
+        }
+        $file_name = $argv[2];
         $fs = new FileSystem(getcwd());
         $config = $fs->loadConfig();
         $cache = new Cache($fs);
@@ -41,18 +46,26 @@ class SmartRunner
         }
     }
 
+    public static function usage()
+    {
+        echo "usage: smartrunner init\n";
+        echo "    or smartrunner run <filename>\n";
+    }
 
     public static function run(array $argv)
     {
         $runner = new self;
         if (count($argv) <= 1) {
+            self::usage();
             return;
         }
         $command = $argv[1];
         if ($command === "run") {
-            $runner->runCommand($argv[2]);
+            $runner->runCommand($argv);
         } else if ($command === "init") {
             $runner->initCommand();
+        } else {
+            self::usage();
         }
     }
 
