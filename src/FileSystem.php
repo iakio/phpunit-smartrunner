@@ -16,11 +16,17 @@ class FileSystem
 
     const SUITE_FILE = 'suite.php';
 
+    const CONFIG_FILE = 'config.json';
+
+    const PHPUNIT_CONFIG_FILE = 'phpunit.xml.dist';
+
     public function __construct($root)
     {
         $this->root = $root;
         $this->cache_dir = $this->root . DIRECTORY_SEPARATOR . self::CACHE_DIR;
         $this->cache_file = $this->cache_dir . DIRECTORY_SEPARATOR . self::CACHE_FILE;
+        $this->config_file = $this->cache_dir . DIRECTORY_SEPARATOR . self::CONFIG_FILE;
+        $this->phpunit_config_file = $this->cache_dir . DIRECTORY_SEPARATOR . self::PHPUNIT_CONFIG_FILE;
     }
 
     public function relativePath($path)
@@ -78,13 +84,13 @@ EOD;
 </phpunit>
 EOD;
         $this->ensureDirectory();
-        file_put_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'phpunit.xml.dist', $config);
+        file_put_contents($this->phpunit_config_file, $config);
     }
 
     public function saveConfigFile(array $config)
     {
         $this->ensureDirectory();
-        file_put_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . 'config.json', json_encode($config, JSON_PRETTY_PRINT));
+        file_put_contents($this->config_file, json_encode($config, JSON_PRETTY_PRINT));
     }
 
     public function loadConfig()

@@ -2,26 +2,10 @@
 
 namespace iakio\phpunit\smartrunner;
 
+use iakio\phpunit\smartrunner\commands\InitCommand;
+
 class SmartRunner
 {
-
-    private function defaultConfig()
-    {
-        return [
-            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin' , 'phpunit']),
-            'cacheignores' => [
-                'vendor/**/*'
-            ]
-        ];
-    }
-
-    public function initCommand()
-    {
-        $fs = new FileSystem(getcwd());
-        $fs->savePhpUnitConfig();
-        $fs->saveConfigFile($this->defaultConfig());
-    }
-
     public function runCommand($argv)
     {
         if (count($argv) === 0) {
@@ -60,11 +44,13 @@ class SmartRunner
             self::usage();
             return;
         }
-        $command = array_shift($argv);
-        if ($command === "run") {
+        $subcommand = array_shift($argv);
+        if ($subcommand === "run") {
             $runner->runCommand($argv);
-        } else if ($command === "init") {
-            $runner->initCommand();
+        } else if ($subcommand === "init") {
+            $fs = new FileSystem(getcwd());
+            $command = new InitCommand($fs);
+            $command->run();
         } else {
             self::usage();
         }
