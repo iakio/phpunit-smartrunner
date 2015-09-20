@@ -54,10 +54,7 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         $executedFiles = array_keys(xdebug_get_code_coverage());
         foreach ($executedFiles as $executedFile) {
             if (!$this->isIgnored($executedFile)) {
-                $this->cache->add(
-                    $this->fs->relativePath($executedFile),
-                    $this->fs->relativePath($testFile)
-                );
+                $this->cache->add($executedFile, $testFile);
             }
         }
         xdebug_stop_code_coverage();

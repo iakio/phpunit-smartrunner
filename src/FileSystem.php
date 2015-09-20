@@ -32,7 +32,7 @@ class FileSystem
 
     public function relativePath($path)
     {
-        return Path::makeRelative(realpath($path), $this->root);
+        return Path::makeRelative($path, $this->root);
     }
 
     private function ensureDirectory()

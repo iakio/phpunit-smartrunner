@@ -19,7 +19,7 @@ class SmartRunner
         $config = $fs->loadConfig();
         $cache = new Cache($fs);
         $cache->loadCache();
-        $arg_file = $fs->relativePath($file_name);
+        $arg_file = $fs->relativePath(realpath($file_name));
         $phpunit = new Phpunit($config['phpunit']);
         $command = new RunCommand($phpunit, $cache, $fs);
         $command->run($arg_file);

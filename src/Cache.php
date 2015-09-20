@@ -39,12 +39,14 @@ class Cache
 
     public function add($key, $val)
     {
+        $key = $this->fs->relativePath($key);
+        $val = $this->fs->relativePath($val);
         if (array_key_exists($key, $this->cache)) {
             if (!in_array($val, $this->cache[$key])) {
                 $this->cache[$key][] = $val;
             }
         } else {
-            $this->cache[$key] = array($val);
+            $this->cache[$key] = [$val];
         }
     }
 
@@ -54,6 +56,6 @@ class Cache
             return $this->cache[$key];
         }
 
-        return array();
+        return [];
     }
 }
