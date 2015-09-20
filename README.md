@@ -1,10 +1,11 @@
 phpunit-smartrunner
 ===================
+[![Build Status](https://travis-ci.org/iakio/phpunit-smartrunner.svg?branch=master)](https://travis-ci.org/iakio/phpunit-smartrunner)
+
+`smartrunner` resolves dependencies between SUTs and test cases using xdebug coverage data.
 
 * When `smartrunner` is invoked with an argument `CalcTest.php`, it runs `CalcTest.php` test case.
-* When `smartrunner` is invoked with an argument `Calc.php`, it also runs `CalcTest.php`. And it may runs some additional test case related to `Calc.php`.
-
-`smartrunner` resolves dependencies between SUT and test case using xdebug coverage information.
+* When `smartrunner` is invoked with an argument `Calc.php`, it also runs `CalcTest.php`. Additionally, it may run all test cases related to `Calc.php`.
 
 # Install
 
@@ -19,14 +20,14 @@ $ vendor/bin/smartrunner init
 ```
 
 This creates `.smartrunner/phpunit.xml.dist` file. If you already have
-some test code, and you want to store all dependencies between
+some test codes, and you want to store all dependencies between
 SUTs and tests certainly, you can run phpunit with this file.
 
 ```
 $ vendor/bin/phpunit -c .smartrunner/phpunit.xml.dist tests
 ```
 
-Then, run smartrunner from your favorite IDE, edotir or filesystem watcher.
+Then, run smartrunner from your favorite IDE, editor or filesystem watcher.
 
 ```
 $ vendor/bin/smartrunner run src/Calc.php

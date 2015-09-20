@@ -1,7 +1,7 @@
 {
     "name": "iakio/phpunit-smartrunner",
-    "description": "Run phpunit ondemand.",
-    "keywords": ["phpunit"],
+    "description": "CLI tool that runs only necessary TestCases.",
+    "keywords": ["phpunit", "tdd"],
     "license": "MIT",
     "authors": [
         {
