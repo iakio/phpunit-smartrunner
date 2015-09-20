@@ -9,10 +9,10 @@ Feature:
 
     Scenario: Run with SUT
         When I run smartrunner with argument "run features/fixtures/tests/CalcTest.php"
-        And I run smartrunner with argument "run features/fixtures/tests/OtherTest.php"
+        And I run smartrunner with argument "run features/fixtures/tests/BankAccountTest.php"
         And I run smartrunner with argument "run features/fixtures/src/Calc.php"
         Then 2 tests and 2 assertions should be executed
-        And Cache should contain 4 entries
+        And Cache should contain 5 entries
 
     Scenario: Using phpunit.phar
         Given I have phpunit.phar file
@@ -26,7 +26,7 @@ Feature:
           }
           """
         When I run smartrunner with argument "run features/fixtures/tests/CalcTest.php"
-        And I run smartrunner with argument "run features/fixtures/tests/OtherTest.php"
+        And I run smartrunner with argument "run features/fixtures/tests/BankAccountTest.php"
         And I run smartrunner with argument "run features/fixtures/src/Calc.php"
         Then 2 tests and 2 assertions should be executed
-        And Cache should contain 4 entries
+        And Cache should contain 5 entries
