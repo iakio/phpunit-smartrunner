@@ -1,10 +1,8 @@
 <?php
 
-use Behat\Behat\Tester\Exception\PendingException;
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
-use Behat\Gherkin\Node\TableNode;
 
 /**
  * Defines application features from the specific context.
@@ -20,7 +18,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function __construct()
     {
-        $this->smartrunner = "php bin/smartrunner";
+        $this->smartrunner = 'php bin/smartrunner';
     }
 
     /**
@@ -29,9 +27,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function removeCacheDir()
     {
         if (defined('PHP_WINDOWS_VERSION_BUILD')) {
-            exec("rd /S /Q .smartrunner");
+            exec('rd /S /Q .smartrunner');
         } else {
-            exec("rm -rf .smartrunner");
+            exec('rm -rf .smartrunner');
         }
     }
 
@@ -40,7 +38,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iRunSmartrunnerWithArgument($arg)
     {
-        exec($this->smartrunner . " $arg", $output);
+        exec($this->smartrunner." $arg", $output);
         $this->output = trim(implode("\n", $output));
     }
 
@@ -49,9 +47,8 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function directoryShouldBeCreated($dir)
     {
-        PHPUnit_Framework_Assert::assertTrue(is_dir(".smartrunner"));
+        PHPUnit_Framework_Assert::assertTrue(is_dir('.smartrunner'));
     }
-
 
     /**
      * @Then /^(\d+) tests? and (\d+) assertions? should be executed$/
@@ -66,7 +63,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iHavePhpunitPharFile()
     {
-        if (!file_exists("phpunit.phar")) {
+        if (!file_exists('phpunit.phar')) {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, 'https://phar.phpunit.de/phpunit.phar');
             curl_setopt($ch, CURLOPT_FILE, fopen('phpunit.phar', 'w'));
@@ -80,7 +77,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iSetUpMyConfigurationFileAs(PyStringNode $string)
     {
-        file_put_contents(".smartrunner/config.json", (string) $string);
+        file_put_contents('.smartrunner/config.json', (string) $string);
     }
 
     /**
@@ -88,7 +85,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function cacheShouldContainEntries($num)
     {
-        $cache = json_decode(file_get_contents(".smartrunner/cache.json"), true);
+        $cache = json_decode(file_get_contents('.smartrunner/cache.json'), true);
         PHPUnit_Framework_Assert::assertEquals($num, count($cache));
     }
 }

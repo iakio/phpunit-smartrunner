@@ -1,4 +1,5 @@
 <?php
+
 namespace iakio\phpunit\smartrunner;
 
 use Webmozart\PathUtil\Path;
@@ -23,10 +24,10 @@ class FileSystem
     public function __construct($root)
     {
         $this->root = $root;
-        $this->cache_dir = $this->root . DIRECTORY_SEPARATOR . self::CACHE_DIR;
-        $this->cache_file = $this->cache_dir . DIRECTORY_SEPARATOR . self::CACHE_FILE;
-        $this->config_file = $this->cache_dir . DIRECTORY_SEPARATOR . self::CONFIG_FILE;
-        $this->phpunit_config_file = $this->cache_dir . DIRECTORY_SEPARATOR . self::PHPUNIT_CONFIG_FILE;
+        $this->cache_dir = $this->root.DIRECTORY_SEPARATOR.self::CACHE_DIR;
+        $this->cache_file = $this->cache_dir.DIRECTORY_SEPARATOR.self::CACHE_FILE;
+        $this->config_file = $this->cache_dir.DIRECTORY_SEPARATOR.self::CONFIG_FILE;
+        $this->phpunit_config_file = $this->cache_dir.DIRECTORY_SEPARATOR.self::PHPUNIT_CONFIG_FILE;
     }
 
     public function relativePath($path)
@@ -52,6 +53,7 @@ class FileSystem
         if (file_exists($this->cache_file)) {
             return json_decode(file_get_contents($this->cache_file), true);
         }
+
         return [];
     }
 
@@ -59,7 +61,7 @@ class FileSystem
     {
         $this->ensureDirectory();
         $addtest = implode("\n        ", array_map(function ($file) {
-            return "\$suite->addTestFile(" . var_export($file, true) . ");";
+            return '$suite->addTestFile('.var_export($file, true).');';
         }, $files));
         $suite = <<<EOD
 <?php class SmartrunnerSuite {
@@ -70,7 +72,7 @@ class FileSystem
     }
 }
 EOD;
-        file_put_contents(self::CACHE_DIR . DIRECTORY_SEPARATOR . self::SUITE_FILE, $suite);
+        file_put_contents(self::CACHE_DIR.DIRECTORY_SEPARATOR.self::SUITE_FILE, $suite);
     }
 
     public function savePhpUnitConfig()
@@ -98,7 +100,7 @@ EOD;
         if (file_exists($this->config_file)) {
             return json_decode(file_get_contents($this->config_file), true);
         }
+
         return [];
     }
-
 }

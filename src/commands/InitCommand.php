@@ -1,4 +1,5 @@
 <?php
+
 namespace iakio\phpunit\smartrunner\commands;
 
 use iakio\phpunit\smartrunner\FileSystem;
@@ -13,10 +14,10 @@ class InitCommand
     private function defaultConfig()
     {
         return [
-            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin' , 'phpunit']),
+            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin', 'phpunit']),
             'cacheignores' => [
-                'vendor/**/*'
-            ]
+                'vendor/**/*',
+            ],
         ];
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace iakio\phpunit\smartrunner\commands\tests;
 
 use iakio\phpunit\smartrunner\commands\RunCommand;
@@ -11,7 +12,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
     private $fs;
     private $phpunit;
 
-    function setUp()
+    public function setUp()
     {
         $this->cache = $this->prophesize('iakio\phpunit\smartrunner\Cache');
         $this->fs = $this->prophesize('iakio\phpunit\smartrunner\FileSystem');
@@ -19,7 +20,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
         $this->command = new RunCommand($this->phpunit->reveal(), $this->cache->reveal(), $this->fs->reveal());
     }
 
-    function test_do_nothing_if_file_is_unknown()
+    public function test_do_nothing_if_file_is_unknown()
     {
         $arg = 'unknownfile';
         $this->cache->get($arg)
@@ -30,7 +31,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
         $this->command->run($arg);
     }
 
-    function test_run_itself_if_file_is_testable()
+    public function test_run_itself_if_file_is_testable()
     {
         $arg = 'tests/CalcTest.php';
         $this->cache->get($arg)
@@ -42,7 +43,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
         $this->command->run($arg);
     }
 
-    function test_run_related_tests_if_file_is_cached()
+    public function test_run_related_tests_if_file_is_cached()
     {
         $arg = 'src/Calc.php';
         $related_tests = [

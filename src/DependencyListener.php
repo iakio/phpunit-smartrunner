@@ -1,4 +1,5 @@
 <?php
+
 namespace iakio\phpunit\smartrunner;
 
 use PHPUnit_Framework_Test;
@@ -6,7 +7,6 @@ use PHPUnit_Framework_TestSuite;
 use ReflectionClass;
 use Webmozart\Glob\Glob;
 use Webmozart\PathUtil\Path;
-
 
 class DependencyListener extends \PHPUnit_Framework_BaseTestListener
 {
@@ -27,14 +27,13 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         $this->config = $this->fs->loadConfig();
     }
 
-
     public function startTest(PHPUnit_Framework_Test $test)
     {
         xdebug_start_code_coverage();
     }
 
-
-    private function isIgnored($file) {
+    private function isIgnored($file)
+    {
         if (strpos($file, 'phar://') === 0) {
             return true;
         }
@@ -44,12 +43,13 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
                 return true;
             }
         }
+
         return false;
     }
 
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        $class  = new ReflectionClass($test);
+        $class = new ReflectionClass($test);
         $testFile = $class->getFileName();
         $executedFiles = array_keys(xdebug_get_code_coverage());
         foreach ($executedFiles as $executedFile) {

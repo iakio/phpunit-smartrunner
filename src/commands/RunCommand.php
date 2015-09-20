@@ -1,4 +1,5 @@
 <?php
+
 namespace iakio\phpunit\smartrunner\commands;
 
 use iakio\phpunit\smartrunner\Phpunit;

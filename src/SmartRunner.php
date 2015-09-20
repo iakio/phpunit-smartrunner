@@ -11,6 +11,7 @@ class SmartRunner
     {
         if (count($argv) === 0) {
             self::usage();
+
             return;
         }
         $file_name = array_shift($argv);
@@ -35,12 +36,13 @@ class SmartRunner
         array_shift($argv);
         if (count($argv) === 0) {
             self::usage();
+
             return;
         }
         $subcommand = array_shift($argv);
-        if ($subcommand === "run") {
+        if ($subcommand === 'run') {
             self::runCommand($argv);
-        } else if ($subcommand === "init") {
+        } elseif ($subcommand === 'init') {
             $fs = new FileSystem(getcwd());
             $command = new InitCommand($fs);
             $command->run();

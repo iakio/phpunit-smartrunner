@@ -1,4 +1,5 @@
 <?php
+
 namespace iakio\phpunit\smartrunner;
 
 class Phpunit
@@ -10,6 +11,6 @@ class Phpunit
 
     public function exec($arg)
     {
-        system($this->phpunit_bin . ' ' . $arg);
+        system($this->phpunit_bin.' '.$arg);
     }
 }
