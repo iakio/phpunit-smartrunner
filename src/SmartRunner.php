@@ -3,13 +3,14 @@
 namespace iakio\phpunit\smartrunner;
 
 use iakio\phpunit\smartrunner\commands\InitCommand;
+use iakio\phpunit\smartrunner\commands\RunCommand;
 
 class SmartRunner
 {
-    public function runCommand($argv)
+    public static function runCommand($argv)
     {
         if (count($argv) === 0) {
-            $this->usage();
+            self::usage();
             return;
         }
         $file_name = array_shift($argv);
@@ -18,16 +19,9 @@ class SmartRunner
         $cache = new Cache($fs);
         $cache->loadCache();
         $arg_file = $fs->relativePath($file_name);
-        $hits = $cache->get($arg_file);
-        if (count($hits) === 0 && self::isTestable($arg_file)) {
-            $hits = [$arg_file];
-        }
-        if (count($hits) > 0) {
-            $fs->saveSuiteFile($hits);
-
-            $command = $config['phpunit'];
-            system("$command -c .smartrunner/phpunit.xml.dist SmartrunnerSuite .smartrunner/suite.php");
-        }
+        $phpunit = new Phpunit($config['phpunit']);
+        $command = new RunCommand($phpunit, $cache, $fs);
+        $command->run($arg_file);
     }
 
     public static function usage()
@@ -38,7 +32,6 @@ class SmartRunner
 
     public static function run(array $argv)
     {
-        $runner = new self;
         array_shift($argv);
         if (count($argv) === 0) {
             self::usage();
@@ -46,7 +39,7 @@ class SmartRunner
         }
         $subcommand = array_shift($argv);
         if ($subcommand === "run") {
-            $runner->runCommand($argv);
+            self::runCommand($argv);
         } else if ($subcommand === "init") {
             $fs = new FileSystem(getcwd());
             $command = new InitCommand($fs);
@@ -54,10 +47,5 @@ class SmartRunner
         } else {
             self::usage();
         }
-    }
-
-    public static function isTestable($arg_file)
-    {
-        return preg_match('/.*Test\.php$/', $arg_file);
     }
 }
