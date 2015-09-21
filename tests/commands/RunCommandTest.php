@@ -29,7 +29,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
             ->willReturn([]);
         $this->fs->saveSuiteFile()->shouldNotBeCalled();
         $this->phpunit->exec()->shouldNotBeCalled();
-        $this->command->run($arg);
+        $this->command->run([$arg]);
     }
 
     public function test_run_itself_if_file_is_testable()
@@ -41,7 +41,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
         $this->fs->saveSuiteFile([$arg])->shouldBeCalled();
 
         $this->phpunit->exec(Argument::any())->shouldBeCalled();
-        $this->command->run($arg);
+        $this->command->run([$arg]);
     }
 
     public function test_run_related_tests_if_file_is_cached()
@@ -56,7 +56,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
             ->willReturn($related_tests);
         $this->fs->saveSuiteFile($related_tests)->shouldBeCalled();
         $this->phpunit->exec(Argument::any())->shouldBeCalled();
-        $this->command->run($arg);
+        $this->command->run([$arg]);
     }
 
     public function test_show_messages_if_cache_directory_does_not_exist()
@@ -65,9 +65,15 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
         $this->fs->cacheDir()->willReturn('.smartrunner');
         $this->fs->cacheDirExists()->willReturn(false);
         $this->fs->saveSuiteFile(Argument::any())->shouldNotBeCalled();
-        $this->command->run($arg);
+        $this->command->run([$arg]);
         $this->expectOutputString(
             ".smartrunner directory does not exist.\n"
         );
+    }
+
+    public function test_show_usage_if_file_does_not_given()
+    {
+        $this->command->run([]);
+        $this->expectOutputRegex('/usage/');
     }
 }

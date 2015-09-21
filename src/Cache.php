@@ -52,6 +52,7 @@ class Cache
 
     public function get($key)
     {
+        $key = $this->fs->relativePath($key);
         if (array_key_exists($key, $this->cache)) {
             return $this->cache[$key];
         }
