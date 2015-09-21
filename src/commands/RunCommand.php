@@ -23,6 +23,11 @@ class RunCommand
 
     public function run($file_name)
     {
+        if (!$this->fs->cacheDirExists()) {
+            echo $this->fs->cacheDir()." directory does not exist.\n";
+
+            return;
+        }
         $hits = $this->cache->get($file_name);
         if (count($hits) === 0 && self::isTestable($file_name)) {
             $hits = [$file_name];

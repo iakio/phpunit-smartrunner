@@ -18,6 +18,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
         $this->fs = $this->prophesize('iakio\phpunit\smartrunner\FileSystem');
         $this->phpunit = $this->prophesize('iakio\phpunit\smartrunner\Phpunit');
         $this->command = new RunCommand($this->phpunit->reveal(), $this->cache->reveal(), $this->fs->reveal());
+        $this->fs->cacheDirExists()->willReturn(true);
     }
 
     public function test_do_nothing_if_file_is_unknown()
@@ -56,5 +57,17 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
         $this->fs->saveSuiteFile($related_tests)->shouldBeCalled();
         $this->phpunit->exec(Argument::any())->shouldBeCalled();
         $this->command->run($arg);
+    }
+
+    public function test_show_messages_if_cache_directory_does_not_exist()
+    {
+        $arg = 'tests/CalcTest.php';
+        $this->fs->cacheDir()->willReturn('.smartrunner');
+        $this->fs->cacheDirExists()->willReturn(false);
+        $this->fs->saveSuiteFile(Argument::any())->shouldNotBeCalled();
+        $this->command->run($arg);
+        $this->expectOutputString(
+            ".smartrunner directory does not exist.\n"
+        );
     }
 }

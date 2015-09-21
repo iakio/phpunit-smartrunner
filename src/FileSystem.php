@@ -42,6 +42,11 @@ class FileSystem
         }
     }
 
+    public function cacheDir()
+    {
+        return $this->relativePath($this->cache_dir);
+    }
+
     public function cacheDirExists()
     {
         return is_dir($this->cache_dir);

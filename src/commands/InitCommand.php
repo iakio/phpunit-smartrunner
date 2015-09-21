@@ -24,7 +24,7 @@ class InitCommand
     public function run()
     {
         if ($this->fs->cacheDirExists()) {
-            echo $this->fs->relativePath($this->fs->cache_dir)." directory already exists.\n";
+            echo $this->fs->cacheDir()." directory already exists.\n";
 
             return;
         }
