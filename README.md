@@ -91,3 +91,7 @@ If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
 # Requirement
 
 - xdebug
+
+# License
+
+This software is released under the MIT License.

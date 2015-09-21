@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of phpunit-smartrunner.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
 namespace iakio\phpunit\smartrunner;
 
 use iakio\phpunit\smartrunner\commands\InitCommand;
@@ -14,6 +21,7 @@ class SmartRunner
         $cache = new Cache($fs);
         $cache->loadCache();
         $phpunit = new Phpunit($config['phpunit']);
+
         return new RunCommand($phpunit, $cache, $fs);
     }
 
