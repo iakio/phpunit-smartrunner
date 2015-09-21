@@ -37,9 +37,14 @@ class FileSystem
 
     private function ensureDirectory()
     {
-        if (!is_dir($this->cache_dir)) {
+        if (!$this->cacheDirExists()) {
             mkdir($this->cache_dir);
         }
+    }
+
+    public function cacheDirExists()
+    {
+        return is_dir($this->cache_dir);
     }
 
     public function saveCache($cache_data)

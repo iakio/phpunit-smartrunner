@@ -23,7 +23,14 @@ class InitCommand
 
     public function run()
     {
+        if ($this->fs->cacheDirExists()) {
+            echo $this->fs->relativePath($this->fs->cache_dir)." directory already exists.\n";
+
+            return;
+        }
         $this->fs->savePhpUnitConfig();
         $this->fs->saveConfigFile($this->defaultConfig());
+        echo $this->fs->relativePath($this->fs->config_file), " created.\n";
+        echo $this->fs->relativePath($this->fs->phpunit_config_file), " created.\n";
     }
 }
