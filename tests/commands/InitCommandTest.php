@@ -36,12 +36,25 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists($this->cache_dir.'/phpunit.xml.dist'));
     }
 
-    public function test_do_nothing_if_cache_directory_exists()
+    public function test_do_not_overwrite_if_config_file_exists()
     {
-        mkdir($this->root->url().'/.smartrunner');
         $this->expectOutputString(
-            ".smartrunner directory already exists.\n"
+            ".smartrunner/config.json already exists.\n".
+            ".smartrunner/phpunit.xml.dist created.\n"
         );
+        mkdir($this->cache_dir);
+        touch($this->cache_dir.'/config.json');
+        $this->command->run();
+    }
+
+    public function test_do_not_overwrite_if_phpunit_config_file_exists()
+    {
+        $this->expectOutputString(
+            ".smartrunner/config.json created.\n".
+            ".smartrunner/phpunit.xml.dist already exists.\n"
+        );
+        mkdir($this->cache_dir);
+        touch($this->cache_dir.'/phpunit.xml.dist');
         $this->command->run();
     }
 }

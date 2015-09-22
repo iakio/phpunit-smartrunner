@@ -20,14 +20,18 @@ class InitCommand
 
     public function run()
     {
-        if ($this->fs->cacheDirExists()) {
-            echo $this->fs->cacheDir()." directory already exists.\n";
-
-            return;
+        if (file_exists($this->fs->config_file)) {
+            echo $this->fs->relativePath($this->fs->config_file), " already exists.\n";
+        } else {
+            $this->fs->saveConfigFile($this->fs->loadConfig());
+            echo $this->fs->relativePath($this->fs->config_file), " created.\n";
         }
-        $this->fs->savePhpUnitConfig();
-        $this->fs->saveConfigFile($this->fs->loadConfig());
-        echo $this->fs->relativePath($this->fs->config_file), " created.\n";
-        echo $this->fs->relativePath($this->fs->phpunit_config_file), " created.\n";
+
+        if (file_exists($this->fs->phpunit_config_file)) {
+            echo $this->fs->relativePath($this->fs->phpunit_config_file), " already exists.\n";
+        } else {
+            $this->fs->savePhpUnitConfig();
+            echo $this->fs->relativePath($this->fs->phpunit_config_file), " created.\n";
+        }
     }
 }
