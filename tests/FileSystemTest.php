@@ -38,12 +38,18 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(file_exists($this->root->url().'/.smartrunner/phpunit.xml.dist'));
     }
 
-    public function test_config()
+    public function test_merge_default_configurations_if_not_specified()
     {
         $config = [
             'phpunit' => 'phpunit',
         ];
+        $merged = [
+            'phpunit' => 'phpunit',
+            'cacheignores' => [
+                'vendor/**/*'
+            ]
+        ];
         $this->fs->saveConfigFile($config);
-        $this->assertEquals($config, $this->fs->loadConfig());
+        $this->assertEquals($merged, $this->fs->loadConfig());
     }
 }

@@ -114,10 +114,21 @@ EOD;
 
     public function loadConfig()
     {
+        $config = $this->defaultConfig();
         if (file_exists($this->config_file)) {
-            return json_decode(file_get_contents($this->config_file), true);
+            $config = array_merge($config, json_decode(file_get_contents($this->config_file), true));
         }
 
-        return [];
+        return $config;
+    }
+
+    private function defaultConfig()
+    {
+        return [
+            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin', 'phpunit']),
+            'cacheignores' => [
+                'vendor/**/*',
+            ],
+        ];
     }
 }

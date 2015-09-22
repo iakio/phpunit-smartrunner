@@ -18,16 +18,6 @@ class InitCommand
         $this->fs = $fs;
     }
 
-    private function defaultConfig()
-    {
-        return [
-            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin', 'phpunit']),
-            'cacheignores' => [
-                'vendor/**/*',
-            ],
-        ];
-    }
-
     public function run()
     {
         if ($this->fs->cacheDirExists()) {
@@ -36,7 +26,7 @@ class InitCommand
             return;
         }
         $this->fs->savePhpUnitConfig();
-        $this->fs->saveConfigFile($this->defaultConfig());
+        $this->fs->saveConfigFile($this->fs->loadConfig());
         echo $this->fs->relativePath($this->fs->config_file), " created.\n";
         echo $this->fs->relativePath($this->fs->phpunit_config_file), " created.\n";
     }
