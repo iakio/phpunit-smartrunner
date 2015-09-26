@@ -9,6 +9,8 @@
 
 namespace iakio\phpunit\smartrunner\commands;
 
+use DOMDocument;
+use DOMAttr;
 use iakio\phpunit\smartrunner\FileSystem;
 
 class InitCommand
@@ -18,7 +20,46 @@ class InitCommand
         $this->fs = $fs;
     }
 
-    public function run()
+    private function defaultPhpUnitConfig()
+    {
+        $config = <<<EOD
+<?xml version="1.0"?>
+<phpunit>
+  <listeners>
+    <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
+  </listeners>
+</phpunit>
+EOD;
+
+        return $config;
+    }
+
+    private function phpunitConfig(array $argv)
+    {
+        if (count($argv) > 0) {
+            $doc = new DOMDocument();
+            $doc->loadXML(
+                file_get_contents($argv[0])
+            );
+            $listeners_tags = $doc->getElementsByTagName('listeners');
+            if ($listeners_tags->length === 0) {
+                $listeners = $doc->firstChild->appendChild($doc->createElement('listeners'));
+            } else {
+                $listeners = $listeners_tags[0];
+            }
+            $listener = $doc->createElement('listener');
+            $listener->setAttributeNode(
+                new DomAttr('class', 'iakio\phpunit\smartrunner\DependencyListener'));
+            $listeners->appendChild($listener);
+            $phpunit_config = $doc->saveXML();
+        } else {
+            $phpunit_config = $this->defaultPhpUnitConfig();
+        }
+
+        return $phpunit_config;
+    }
+
+    public function run(array $argv = [])
     {
         if (file_exists($this->fs->config_file)) {
             echo $this->fs->relativePath($this->fs->config_file), " already exists.\n";
@@ -30,7 +71,7 @@ class InitCommand
         if (file_exists($this->fs->phpunit_config_file)) {
             echo $this->fs->relativePath($this->fs->phpunit_config_file), " already exists.\n";
         } else {
-            $this->fs->savePhpUnitConfig();
+            $this->fs->savePhpUnitConfig($this->phpunitConfig($argv));
             echo $this->fs->relativePath($this->fs->phpunit_config_file), " created.\n";
         }
     }

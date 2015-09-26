@@ -27,7 +27,7 @@ class SmartRunner
 
     public static function usage()
     {
-        echo "usage: smartrunner init\n";
+        echo "Usage: smartrunner init [phpunit.xml]\n";
         echo "    or smartrunner run <filename>\n";
     }
 
@@ -46,7 +46,7 @@ class SmartRunner
         } elseif ($subcommand === 'init') {
             $fs = new FileSystem(getcwd());
             $command = new InitCommand($fs);
-            $command->run();
+            $command->run($argv);
         } else {
             self::usage();
         }

@@ -57,4 +57,44 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         touch($this->cache_dir.'/phpunit.xml.dist');
         $this->command->run();
     }
+
+    public function test_reflect_original_phpunit_config_file()
+    {
+        $original = $this->root->url().'/phpunit.xml.dist';
+        $generated = $this->cache_dir.'/phpunit.xml.dist';
+        file_put_contents($original, '<phpunit colors="true"></phpunit>');
+        $expected = <<<EOD
+            <phpunit colors="true">
+              <listeners>
+                <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
+              </listeners>
+            </phpunit>
+EOD;
+        $this->command->run([$original]);
+        $this->assertXmlStringEqualsXmlString(
+            $expected,
+            file_get_contents($generated)
+        );
+    }
+
+    public function test_append_listener_to_original_phpunit_config_file()
+    {
+        $original = $this->root->url().'/phpunit.xml.dist';
+        $generated = $this->cache_dir.'/phpunit.xml.dist';
+        file_put_contents($original,
+            '<phpunit colors="true"><listeners><listener class="MyListener"></listener></listeners></phpunit>');
+        $expected = <<<EOD
+            <phpunit colors="true">
+              <listeners>
+                <listener class="MyListener"></listener>
+                <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
+              </listeners>
+            </phpunit>
+EOD;
+        $this->command->run([$original]);
+        $this->assertXmlStringEqualsXmlString(
+            $expected,
+            file_get_contents($generated)
+        );
+    }
 }

@@ -92,16 +92,8 @@ EOD;
         file_put_contents(self::CACHE_DIR.DIRECTORY_SEPARATOR.self::SUITE_FILE, $suite);
     }
 
-    public function savePhpUnitConfig()
+    public function savePhpUnitConfig($config)
     {
-        $config = <<<EOD
-<?xml version="1.0"?>
-<phpunit>
-  <listeners>
-    <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
-  </listeners>
-</phpunit>
-EOD;
         $this->ensureDirectory();
         file_put_contents($this->phpunit_config_file, $config);
     }
