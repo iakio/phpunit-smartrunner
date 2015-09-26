@@ -27,8 +27,8 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
     public function test_create_configuration_files()
     {
         $this->expectOutputString(
-            ".smartrunner/config.json created.\n".
-            ".smartrunner/phpunit.xml.dist created.\n"
+            "Creating .smartrunner/config.json.\n".
+            "Creating .smartrunner/phpunit.xml.dist.\n"
         );
         $this->command->run();
         $this->assertTrue(is_dir($this->cache_dir));
@@ -40,7 +40,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString(
             ".smartrunner/config.json already exists.\n".
-            ".smartrunner/phpunit.xml.dist created.\n"
+            "Creating .smartrunner/phpunit.xml.dist.\n"
         );
         mkdir($this->cache_dir);
         touch($this->cache_dir.'/config.json');
@@ -50,7 +50,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
     public function test_do_not_overwrite_if_phpunit_config_file_exists()
     {
         $this->expectOutputString(
-            ".smartrunner/config.json created.\n".
+            "Creating .smartrunner/config.json.\n".
             ".smartrunner/phpunit.xml.dist already exists.\n"
         );
         mkdir($this->cache_dir);
@@ -70,6 +70,11 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
               </listeners>
             </phpunit>
 EOD;
+
+        $this->expectOutputString(
+            "Creating .smartrunner/config.json.\n".
+            "Creating .smartrunner/phpunit.xml.dist.\n"
+        );
         $this->command->run([$original]);
         $this->assertXmlStringEqualsXmlString(
             $expected,
@@ -91,6 +96,10 @@ EOD;
               </listeners>
             </phpunit>
 EOD;
+        $this->expectOutputString(
+            "Creating .smartrunner/config.json.\n".
+            "Creating .smartrunner/phpunit.xml.dist.\n"
+        );
         $this->command->run([$original]);
         $this->assertXmlStringEqualsXmlString(
             $expected,

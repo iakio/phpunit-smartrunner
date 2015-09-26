@@ -64,15 +64,15 @@ EOD;
         if (file_exists($this->fs->config_file)) {
             echo $this->fs->relativePath($this->fs->config_file), " already exists.\n";
         } else {
+            echo 'Creating '.$this->fs->relativePath($this->fs->config_file), ".\n";
             $this->fs->saveConfigFile($this->fs->loadConfig());
-            echo $this->fs->relativePath($this->fs->config_file), " created.\n";
         }
 
         if (file_exists($this->fs->phpunit_config_file)) {
             echo $this->fs->relativePath($this->fs->phpunit_config_file), " already exists.\n";
         } else {
+            echo 'Creating '.$this->fs->relativePath($this->fs->phpunit_config_file), ".\n";
             $this->fs->savePhpUnitConfig($this->phpunitConfig($argv));
-            echo $this->fs->relativePath($this->fs->phpunit_config_file), " created.\n";
         }
     }
 }
