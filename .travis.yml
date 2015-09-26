@@ -2,12 +2,18 @@ language: php
 
 sudo: false
 
+cache:
+    directorise:
+        - $HOME/.composer/cache
+
 before_script:
-    - composer self-update
+    - composer self-update -q
+    - if [ -n "$GH_TOKEN" ]; then composer config github-oauth.github.com ${GH_TOKEN}; fi;
+
 
 script:
-    - composer install  --prefer-source
-    - vendor/bin/phpunit tests
+    - composer install
+    - vendor/bin/phpunit
     - vendor/bin/behat
 
 php:
