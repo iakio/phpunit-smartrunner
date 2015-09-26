@@ -81,6 +81,6 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
     public function test_show_usage_if_file_does_not_given()
     {
         $this->command->run([]);
-        $this->expectOutputRegex('/usage/');
+        $this->expectOutputRegex('/Usage/');
     }
 }

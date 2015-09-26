@@ -34,7 +34,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
     public function test_phpunit_config()
     {
-        $this->fs->savePhpUnitConfig();
+        $this->fs->savePhpUnitConfig('<phpunit/>');
         $this->assertTrue(file_exists($this->root->url().'/.smartrunner/phpunit.xml.dist'));
     }
 
