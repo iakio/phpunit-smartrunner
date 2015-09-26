@@ -45,7 +45,7 @@ EOD;
             if ($listeners_tags->length === 0) {
                 $listeners = $doc->firstChild->appendChild($doc->createElement('listeners'));
             } else {
-                $listeners = $listeners_tags[0];
+                $listeners = $listeners_tags->item(0);
             }
             $listener = $doc->createElement('listener');
             $listener->setAttributeNode(
