@@ -21,7 +21,10 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $this->cache_dir = $this->root->url().DIRECTORY_SEPARATOR.'.smartrunner';
 
         $this->fs = new FileSystem($this->root->url());
-        $this->command = new InitCommand($this->fs);
+        $this->generator = $this->prophesize(
+            'iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator'
+        );
+        $this->command = new InitCommand($this->fs, $this->generator->reveal());
     }
 
     public function test_create_configuration_files()
@@ -58,52 +61,28 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $this->command->run();
     }
 
-    public function test_reflect_original_phpunit_config_file()
+    public function test_generate_default_phpunit_config()
     {
-        $original = $this->root->url().'/phpunit.xml.dist';
-        $generated = $this->cache_dir.'/phpunit.xml.dist';
-        file_put_contents($original, '<phpunit colors="true"></phpunit>');
-        $expected = <<<EOD
-            <phpunit colors="true">
-              <listeners>
-                <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
-              </listeners>
-            </phpunit>
-EOD;
+        $this->generator->generate('<phpunit />')->shouldBeCalled();
 
         $this->expectOutputString(
             "Creating .smartrunner/config.json.\n".
             "Creating .smartrunner/phpunit.xml.dist.\n"
         );
-        $this->command->run([$original]);
-        $this->assertXmlStringEqualsXmlString(
-            $expected,
-            file_get_contents($generated)
-        );
+        $this->command->run();
     }
 
-    public function test_append_listener_to_original_phpunit_config_file()
+    public function test_invoke_generator_with_original_content_if_argument_is_passed()
     {
-        $original = $this->root->url().'/phpunit.xml.dist';
-        $generated = $this->cache_dir.'/phpunit.xml.dist';
-        file_put_contents($original,
-            '<phpunit colors="true"><listeners><listener class="MyListener"></listener></listeners></phpunit>');
-        $expected = <<<EOD
-            <phpunit colors="true">
-              <listeners>
-                <listener class="MyListener"></listener>
-                <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
-              </listeners>
-            </phpunit>
-EOD;
+        $original_file = $this->root->url().'/phpunit.xml.dist';
+        $original_content = '<phpunit colors="true"><listeners><listener class="MyListener"></listener></listeners></phpunit>';
+        file_put_contents($original_file, $original_content);
         $this->expectOutputString(
             "Creating .smartrunner/config.json.\n".
             "Creating .smartrunner/phpunit.xml.dist.\n"
         );
-        $this->command->run([$original]);
-        $this->assertXmlStringEqualsXmlString(
-            $expected,
-            file_get_contents($generated)
-        );
+
+        $this->generator->generate($original_content)->shouldBeCalled();
+        $this->command->run([$original_file]);
     }
 }

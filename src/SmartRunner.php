@@ -10,6 +10,7 @@
 namespace iakio\phpunit\smartrunner;
 
 use iakio\phpunit\smartrunner\commands\InitCommand;
+use iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator;
 use iakio\phpunit\smartrunner\commands\RunCommand;
 
 class SmartRunner
@@ -23,6 +24,13 @@ class SmartRunner
         $phpunit = new Phpunit($config['phpunit']);
 
         return new RunCommand($phpunit, $cache, $fs);
+    }
+
+    public static function createInitCommand()
+    {
+        $fs = new FileSystem(getcwd());
+
+        return new InitCommand($fs, new PhpunitConfigGenerator());
     }
 
     public static function usage()
@@ -44,8 +52,7 @@ class SmartRunner
             $command = self::createRunCommand();
             $command->run($argv);
         } elseif ($subcommand === 'init') {
-            $fs = new FileSystem(getcwd());
-            $command = new InitCommand($fs);
+            $command = self::createInitCommand();
             $command->run($argv);
         } else {
             self::usage();

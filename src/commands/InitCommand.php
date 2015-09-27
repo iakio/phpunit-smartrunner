@@ -9,42 +9,26 @@
 
 namespace iakio\phpunit\smartrunner\commands;
 
-use DOMDocument;
-use DOMAttr;
 use iakio\phpunit\smartrunner\FileSystem;
+use iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator;
 
 class InitCommand
 {
-    public function __construct(FileSystem $fs)
+    public function __construct(FileSystem $fs, PhpunitConfigGenerator $generator)
     {
         $this->fs = $fs;
+        $this->generator = $generator;
     }
 
     private function phpunitConfig(array $argv)
     {
-        $doc = new DOMDocument();
-        $doc->preserveWhiteSpace = false;
-        $doc->formatOutput = true;
         if (count($argv) > 0) {
-            $doc->loadXML(
-                file_get_contents($argv[0])
-            );
+            $original = file_get_contents($argv[0]);
         } else {
-            $doc->loadXML('<phpunit />');
+            $original = '<phpunit />';
         }
-        $listeners_tags = $doc->getElementsByTagName('listeners');
-        if ($listeners_tags->length === 0) {
-            $listeners = $doc->firstChild->appendChild($doc->createElement('listeners'));
-        } else {
-            $listeners = $listeners_tags->item(0);
-        }
-        $listener = $doc->createElement('listener');
-        $listener->setAttributeNode(
-            new DomAttr('class', 'iakio\phpunit\smartrunner\DependencyListener'));
-        $listeners->appendChild($listener);
-        $phpunit_config = $doc->saveXML();
 
-        return $phpunit_config;
+        return $this->generator->generate($original);
     }
 
     public function run(array $argv = [])

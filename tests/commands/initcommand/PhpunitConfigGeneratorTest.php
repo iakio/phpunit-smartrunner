@@ -1,0 +1,58 @@
+<?php
+
+/*
+ * This file is part of phpunit-smartrunner.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace iakio\phpunit\smartrunner\commands\initcommand\tests;
+
+use iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator;
+
+class PhpunitConfigGeneratorTest extends \PHPUnit_Framework_TestCase
+{
+    public function test_reflect_original_phpunit_config_file()
+    {
+        $config = new PhpunitConfigGenerator();
+        $original = '<phpunit colors="true"></phpunit>';
+        $expected = <<<EOD
+            <phpunit colors="true">
+              <listeners>
+                <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
+              </listeners>
+            </phpunit>
+EOD;
+
+        $this->assertXmlStringEqualsXmlString(
+            $expected,
+            $config->generate($original)
+        );
+    }
+
+    public function test_append_listener_to_original_phpunit_config_file()
+    {
+        $config = new PhpunitConfigGenerator();
+        $original = <<<EOD
+            <phpunit colors="true">
+              <listeners>
+                <listener class="MyListener"></listener>
+              </listeners>
+            </phpunit>
+EOD;
+
+        $expected = <<<EOD
+            <phpunit colors="true">
+              <listeners>
+                <listener class="MyListener"></listener>
+                <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
+              </listeners>
+            </phpunit>
+EOD;
+        $this->assertXmlStringEqualsXmlString(
+            $expected,
+            $config->generate($original)
+        );
+    }
+}
