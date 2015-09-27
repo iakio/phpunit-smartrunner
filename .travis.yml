@@ -3,7 +3,7 @@ language: php
 sudo: false
 
 cache:
-    directorise:
+    directories:
         - $HOME/.composer/cache
 
 before_script:
