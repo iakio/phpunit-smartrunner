@@ -38,6 +38,8 @@ EOD;
     {
         if (count($argv) > 0) {
             $doc = new DOMDocument();
+            $doc->preserveWhiteSpace  = false;
+            $doc->formatOutput = true;
             $doc->loadXML(
                 file_get_contents($argv[0])
             );
