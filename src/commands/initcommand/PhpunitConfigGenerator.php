@@ -14,24 +14,36 @@ use DOMAttr;
 
 class PhpunitConfigGenerator
 {
+    private $doc;
+
+    public function __construct()
+    {
+        $this->doc = new DOMDocument();
+        $this->doc->preserveWhiteSpace = false;
+        $this->doc->formatOutput = true;
+    }
+
+
+    private function createListenerNode()
+    {
+        $node = $this->doc->createElement('listener');
+        $node->setAttributeNode(new DomAttr('class', 'iakio\phpunit\smartrunner\DependencyListener'));
+        return $node;
+    }
+
+
     public function generate($original)
     {
-        $doc = new DOMDocument();
-        $doc->preserveWhiteSpace = false;
-        $doc->formatOutput = true;
-        $doc->loadXML($original);
+        $this->doc->loadXML($original);
 
-        $listeners_nodes = $doc->getElementsByTagName('listeners');
+        $listeners_nodes = $this->doc->getElementsByTagName('listeners');
         if ($listeners_nodes->length === 0) {
-            $listeners = $doc->firstChild->appendChild($doc->createElement('listeners'));
+            $listeners = $this->doc->firstChild->appendChild($this->doc->createElement('listeners'));
         } else {
             $listeners = $listeners_nodes->item(0);
         }
-        $listener = $doc->createElement('listener');
-        $listener->setAttributeNode(
-            new DomAttr('class', 'iakio\phpunit\smartrunner\DependencyListener'));
-        $listeners->appendChild($listener);
+        $listeners->appendChild($this->createListenerNode());
 
-        return $doc->saveXML();
+        return $this->doc->saveXML();
     }
 }
