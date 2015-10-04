@@ -14,6 +14,7 @@ Feature:
         Then 2 tests and 2 assertions should be executed
         And Cache should contain 5 entries
 
+    @phpunit.phar
     Scenario: Using phpunit.phar
         Given I have phpunit.phar file
         And I set up my configuration file as
