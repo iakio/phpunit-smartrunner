@@ -55,4 +55,41 @@ EOD;
             $config->generate($original)
         );
     }
+
+    public function test_fix_path()
+    {
+        $config = new PhpunitConfigGenerator();
+        $original = <<<EOD
+            <phpunit>
+              <testsuites>
+                <testsuite name="My Test Suite">
+                  <directory>tests/</directory>
+                  <directory>/path/to/tests/*Test.php</directory>
+                  <file>path/to/MyTest.php</file>
+                  <exclude>path/to/exclude</exclude>
+                </testsuite>
+              </testsuites>
+            </phpunit>
+EOD;
+
+        $expected = <<<EOD
+            <phpunit>
+              <testsuites>
+                <testsuite name="My Test Suite">
+                  <directory>../tests</directory>
+                  <directory>/path/to/tests/*Test.php</directory>
+                  <file>../path/to/MyTest.php</file>
+                  <exclude>../path/to/exclude</exclude>
+                </testsuite>
+              </testsuites>
+              <listeners>
+                <listener class="iakio\phpunit\smartrunner\DependencyListener"></listener>
+              </listeners>
+            </phpunit>
+EOD;
+        $this->assertXmlStringEqualsXmlString(
+            $expected,
+            $config->generate($original, '..')
+        );
+    }
 }

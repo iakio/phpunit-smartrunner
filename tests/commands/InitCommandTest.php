@@ -63,7 +63,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_generate_default_phpunit_config()
     {
-        $this->generator->generate('<phpunit />')->shouldBeCalled();
+        $this->generator->generate('<phpunit />', null)->shouldBeCalled();
 
         $this->expectOutputString(
             "Creating .smartrunner/config.json.\n".
@@ -82,7 +82,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
             "Creating .smartrunner/phpunit.xml.dist.\n"
         );
 
-        $this->generator->generate($original_content)->shouldBeCalled();
+        $this->generator->generate($original_content, '..')->shouldBeCalled();
         $this->command->run([$original_file]);
     }
 }

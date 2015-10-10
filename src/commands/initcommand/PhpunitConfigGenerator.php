@@ -11,6 +11,9 @@ namespace iakio\phpunit\smartrunner\commands\initcommand;
 
 use DOMDocument;
 use DOMAttr;
+use DOMXPath;
+use DOMText;
+use Webmozart\PathUtil\Path;
 
 class PhpunitConfigGenerator
 {
@@ -32,7 +35,24 @@ class PhpunitConfigGenerator
     }
 
 
-    public function generate($original)
+    private function fixSuitePath($fix_path)
+    {
+        $xpath = new DOMXPath($this->doc);
+        $node_list = $xpath->query('//directory | //file | //exclude');
+        foreach ($node_list as $node) {
+            if (Path::isRelative($path = $node->textContent)) {
+                $new_text = new DOMText(Path::canonicalize($fix_path.'/'.$path));
+                if ($node->firstChild) {
+                    $node->replaceChild($new_text, $node->firstChild);
+                } else {
+                    $node->appendChild($new_text);
+                }
+            }
+        }
+    }
+
+
+    public function generate($original, $fix_path = null)
     {
         $this->doc->loadXML($original);
 
@@ -43,6 +63,10 @@ class PhpunitConfigGenerator
             $listeners = $listeners_nodes->item(0);
         }
         $listeners->appendChild($this->createListenerNode());
+
+        if ($fix_path) {
+            $this->fixSuitePath($fix_path);
+        }
 
         return $this->doc->saveXML();
     }

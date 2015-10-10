@@ -11,6 +11,7 @@ namespace iakio\phpunit\smartrunner\commands;
 
 use iakio\phpunit\smartrunner\FileSystem;
 use iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator;
+use Webmozart\PathUtil\Path;
 
 class InitCommand
 {
@@ -24,11 +25,13 @@ class InitCommand
     {
         if (count($argv) > 0) {
             $original = file_get_contents($argv[0]);
+            $fix = Path::canonicalize('../'.$this->fs->relativePath(dirname($argv[0])));
         } else {
             $original = '<phpunit />';
+            $fix = null;
         }
 
-        return $this->generator->generate($original);
+        return $this->generator->generate($original, $fix);
     }
 
     public function run(array $argv = [])
