@@ -38,7 +38,7 @@ class PhpunitConfigGenerator
     private function fixSuitePath($fix_path)
     {
         $xpath = new DOMXPath($this->doc);
-        $node_list = $xpath->query('//directory | //file | //exclude');
+        $node_list = $xpath->query('//testsuite/directory | //testsuite/file | //testsuite/exclude');
         foreach ($node_list as $node) {
             if (Path::isRelative($path = $node->textContent)) {
                 $new_text = new DOMText(Path::canonicalize($fix_path.'/'.$path));
