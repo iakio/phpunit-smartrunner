@@ -16,7 +16,7 @@ class PhpunitConfigGeneratorTest extends \PHPUnit_Framework_TestCase
     public function test_reflect_original_phpunit_config_file()
     {
         $config = new PhpunitConfigGenerator();
-        $original = '<phpunit colors="true"></phpunit>';
+        $original = '<!--commment--><phpunit colors="true"></phpunit>';
         $expected = <<<EOD
             <phpunit colors="true">
               <listeners>

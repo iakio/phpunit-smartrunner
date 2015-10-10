@@ -26,14 +26,13 @@ class PhpunitConfigGenerator
         $this->doc->formatOutput = true;
     }
 
-
     private function createListenerNode()
     {
         $node = $this->doc->createElement('listener');
         $node->setAttributeNode(new DomAttr('class', 'iakio\phpunit\smartrunner\DependencyListener'));
+
         return $node;
     }
-
 
     private function fixSuitePath($fix_path)
     {
@@ -51,14 +50,14 @@ class PhpunitConfigGenerator
         }
     }
 
-
     public function generate($original, $fix_path = null)
     {
         $this->doc->loadXML($original);
 
+        $phpunit_nodes = $this->doc->getElementsByTagName('phpunit');
         $listeners_nodes = $this->doc->getElementsByTagName('listeners');
         if ($listeners_nodes->length === 0) {
-            $listeners = $this->doc->firstChild->appendChild($this->doc->createElement('listeners'));
+            $listeners = $phpunit_nodes->item(0)->appendChild($this->doc->createElement('listeners'));
         } else {
             $listeners = $listeners_nodes->item(0);
         }
