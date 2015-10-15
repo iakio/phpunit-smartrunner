@@ -60,7 +60,7 @@ EOD;
     {
         $config = new PhpunitConfigGenerator();
         $original = <<<EOD
-            <phpunit>
+            <phpunit bootstrap="vendor/autoload.php">
               <testsuites>
                 <testsuite name="My Test Suite">
                   <directory>tests/</directory>
@@ -73,7 +73,7 @@ EOD;
 EOD;
 
         $expected = <<<EOD
-            <phpunit>
+            <phpunit bootstrap="../vendor/autoload.php">
               <testsuites>
                 <testsuite name="My Test Suite">
                   <directory>../tests</directory>

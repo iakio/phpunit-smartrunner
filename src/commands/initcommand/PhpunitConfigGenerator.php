@@ -11,6 +11,7 @@ namespace iakio\phpunit\smartrunner\commands\initcommand;
 
 use DOMDocument;
 use DOMAttr;
+use DOMElement;
 use DOMXPath;
 use DOMText;
 use Webmozart\PathUtil\Path;
@@ -50,6 +51,13 @@ class PhpunitConfigGenerator
         }
     }
 
+    private function fixBootstrapPaht($fix_path, DOMElement $node)
+    {
+        if ($node->hasAttribute('bootstrap')) {
+            $node->setAttribute('bootstrap', Path::canonicalize($fix_path.'/'.$node->getAttribute('bootstrap')));
+        }
+    }
+
     public function generate($original, $fix_path = null)
     {
         $this->doc->loadXML($original);
@@ -65,6 +73,7 @@ class PhpunitConfigGenerator
 
         if ($fix_path) {
             $this->fixSuitePath($fix_path);
+            $this->fixBootstrapPaht($fix_path, $phpunit_nodes->item(0));
         }
 
         return $this->doc->saveXML();
