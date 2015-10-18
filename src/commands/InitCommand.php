@@ -15,10 +15,16 @@ use Webmozart\PathUtil\Path;
 
 class InitCommand
 {
-    public function __construct(FileSystem $fs, PhpunitConfigGenerator $generator)
+    /** @var FileSystem */
+    private $fs;
+
+    /** @var PhpunitConfigGenerator */
+    private $phpunit_config_generator;
+
+    public function __construct(FileSystem $fs, PhpunitConfigGenerator $phpunit_config_generator)
     {
         $this->fs = $fs;
-        $this->generator = $generator;
+        $this->phpunit_config_generator = $phpunit_config_generator;
     }
 
     private function phpunitConfig(array $argv)
@@ -31,7 +37,7 @@ class InitCommand
             $fix = null;
         }
 
-        return $this->generator->generate($original, $fix);
+        return $this->phpunit_config_generator->generate($original, $fix);
     }
 
     public function run(array $argv = [])

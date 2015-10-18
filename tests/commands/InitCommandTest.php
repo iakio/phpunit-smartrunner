@@ -21,10 +21,10 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $this->cache_dir = $this->root->url().DIRECTORY_SEPARATOR.'.smartrunner';
 
         $this->fs = new FileSystem($this->root->url());
-        $this->generator = $this->prophesize(
+        $this->phpunit_config_generator = $this->prophesize(
             'iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator'
         );
-        $this->command = new InitCommand($this->fs, $this->generator->reveal());
+        $this->command = new InitCommand($this->fs, $this->phpunit_config_generator->reveal());
     }
 
     public function test_create_configuration_files()
@@ -63,7 +63,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_generate_default_phpunit_config()
     {
-        $this->generator->generate('<phpunit />', null)->shouldBeCalled();
+        $this->phpunit_config_generator->generate('<phpunit />', null)->shouldBeCalled();
 
         $this->expectOutputString(
             "Creating .smartrunner/config.json.\n".
@@ -82,7 +82,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
             "Creating .smartrunner/phpunit.xml.dist.\n"
         );
 
-        $this->generator->generate($original_content, '..')->shouldBeCalled();
+        $this->phpunit_config_generator->generate($original_content, '..')->shouldBeCalled();
         $this->command->run([$original_file]);
     }
 }
