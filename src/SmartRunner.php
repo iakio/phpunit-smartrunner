@@ -15,6 +15,17 @@ use iakio\phpunit\smartrunner\commands\RunCommand;
 
 class SmartRunner
 {
+    public static function defaultConfig()
+    {
+        return [
+            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin', 'phpunit']),
+            'cacheignores' => [
+                'vendor/**/*',
+            ],
+        ];
+    }
+
+
     public static function createRunCommand()
     {
         $fs = new FileSystem(getcwd());

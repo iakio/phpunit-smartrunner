@@ -9,6 +9,7 @@
 
 namespace iakio\phpunit\smartrunner;
 
+use iakio\phpunit\smartrunner\Smartrunner;
 use Webmozart\PathUtil\Path;
 
 class FileSystem
@@ -106,21 +107,11 @@ EOD;
 
     public function loadConfig()
     {
-        $config = $this->defaultConfig();
+        $config = Smartrunner::defaultConfig();
         if (file_exists($this->config_file)) {
             $config = array_merge($config, json_decode(file_get_contents($this->config_file), true));
         }
 
         return $config;
-    }
-
-    private function defaultConfig()
-    {
-        return [
-            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin', 'phpunit']),
-            'cacheignores' => [
-                'vendor/**/*',
-            ],
-        ];
     }
 }
