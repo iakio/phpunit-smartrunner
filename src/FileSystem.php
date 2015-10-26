@@ -38,6 +38,11 @@ class FileSystem
         $this->phpunit_config_file = $this->cache_dir.DIRECTORY_SEPARATOR.self::PHPUNIT_CONFIG_FILE;
     }
 
+    public function fileExists($path)
+    {
+        return file_exists($path);
+    }
+
     public function relativePath($path)
     {
         return Path::makeRelative($path, $this->root);

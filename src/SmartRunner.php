@@ -11,6 +11,7 @@ namespace iakio\phpunit\smartrunner;
 
 use iakio\phpunit\smartrunner\commands\InitCommand;
 use iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator;
+use iakio\phpunit\smartrunner\commands\initcommand\ConfigGenerator;
 use iakio\phpunit\smartrunner\commands\RunCommand;
 
 class SmartRunner
@@ -18,13 +19,12 @@ class SmartRunner
     public static function defaultConfig()
     {
         return [
-            'phpunit' => implode(DIRECTORY_SEPARATOR, ['vendor', 'bin', 'phpunit']),
+            'phpunit' => 'phpunit',
             'cacheignores' => [
                 'vendor/**/*',
             ],
         ];
     }
-
 
     public static function createRunCommand()
     {
@@ -41,7 +41,7 @@ class SmartRunner
     {
         $fs = new FileSystem(getcwd());
 
-        return new InitCommand($fs, new PhpunitConfigGenerator());
+        return new InitCommand($fs, new ConfigGenerator($fs), new PhpunitConfigGenerator());
     }
 
     public static function usage()

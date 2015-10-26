@@ -10,6 +10,7 @@
 namespace iakio\phpunit\smartrunner\commands;
 
 use iakio\phpunit\smartrunner\FileSystem;
+use iakio\phpunit\smartrunner\commands\initcommand\ConfigGenerator;
 use iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator;
 use Webmozart\PathUtil\Path;
 
@@ -21,9 +22,10 @@ class InitCommand
     /** @var PhpunitConfigGenerator */
     private $phpunit_config_generator;
 
-    public function __construct(FileSystem $fs, PhpunitConfigGenerator $phpunit_config_generator)
+    public function __construct(FileSystem $fs, ConfigGenerator $config_generator, PhpunitConfigGenerator $phpunit_config_generator)
     {
         $this->fs = $fs;
+        $this->config_generator = $config_generator;
         $this->phpunit_config_generator = $phpunit_config_generator;
     }
 
@@ -46,7 +48,7 @@ class InitCommand
             echo $this->fs->relativePath($this->fs->config_file), " already exists.\n";
         } else {
             echo 'Creating '.$this->fs->relativePath($this->fs->config_file), ".\n";
-            $this->fs->saveConfigFile($this->fs->loadConfig());
+            $this->fs->saveConfigFile($this->config_generator->generate());
         }
 
         if (file_exists($this->fs->phpunit_config_file)) {

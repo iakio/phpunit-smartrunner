@@ -21,10 +21,14 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $this->cache_dir = $this->root->url().DIRECTORY_SEPARATOR.'.smartrunner';
 
         $this->fs = new FileSystem($this->root->url());
+        $this->config_generator = $this->prophesize(
+            'iakio\phpunit\smartrunner\commands\initcommand\ConfigGenerator'
+        );
+        $this->config_generator->generate()->willReturn([]);
         $this->phpunit_config_generator = $this->prophesize(
             'iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator'
         );
-        $this->command = new InitCommand($this->fs, $this->phpunit_config_generator->reveal());
+        $this->command = new InitCommand($this->fs, $this->config_generator->reveal(), $this->phpunit_config_generator->reveal());
     }
 
     public function test_create_configuration_files()
