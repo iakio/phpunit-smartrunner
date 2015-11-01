@@ -9,7 +9,7 @@
 
 namespace iakio\phpunit\smartrunner;
 
-use iakio\phpunit\smartrunner\Smartrunner;
+use iakio\phpunit\smartrunner\SmartRunner;
 use Webmozart\PathUtil\Path;
 
 class FileSystem
@@ -112,7 +112,7 @@ EOD;
 
     public function loadConfig()
     {
-        $config = Smartrunner::defaultConfig();
+        $config = SmartRunner::defaultConfig();
         if (file_exists($this->config_file)) {
             $config = array_merge($config, json_decode(file_get_contents($this->config_file), true));
         }
