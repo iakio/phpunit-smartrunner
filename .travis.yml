@@ -12,7 +12,7 @@ before_script:
 
 
 script:
-    - composer install
+    - composer update
     - vendor/bin/phpunit
     - vendor/bin/behat $BEHAT_TAGS
 
