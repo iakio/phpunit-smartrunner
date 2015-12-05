@@ -9,7 +9,6 @@
 
 namespace iakio\phpunit\smartrunner;
 
-use iakio\phpunit\smartrunner\SmartRunner;
 use Webmozart\PathUtil\Path;
 
 class FileSystem
@@ -29,7 +28,11 @@ class FileSystem
      */
     private $root;
 
+    private $cache_dir;
+    private $cache_file;
+    private $config_file;
     private $relative_path_cache;
+    private $phpunit_config_file;
 
     public function __construct($root)
     {
@@ -53,6 +56,7 @@ class FileSystem
         }
         $relative_path = Path::makeRelative($path, $this->root);
         $this->relative_path_cache[$path] = $relative_path;
+
         return $relative_path;
     }
 
@@ -126,5 +130,21 @@ EOD;
         }
 
         return $config;
+    }
+
+    /**
+     * @return string
+     */
+    public function getConfigFile()
+    {
+        return $this->config_file;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhpunitConfigFile()
+    {
+        return $this->phpunit_config_file;
     }
 }

@@ -10,7 +10,6 @@
 namespace iakio\phpunit\smartrunner\commands\initcommand\tests;
 
 use iakio\phpunit\smartrunner\commands\initcommand\ConfigGenerator;
-use iakio\phpunit\smartrunner\FileSystem;
 use Prophecy\Argument;
 
 class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +27,7 @@ class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
             'phpunit' => 'phpunit',
             'cacheignores' => [
                 'vendor/**/*',
-            ]
+            ],
         ];
         $this->assertEquals($expected, $this->generator->generate());
     }

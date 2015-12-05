@@ -27,6 +27,7 @@ class ConfigGenerator
         if ($this->fs->fileExists('phpunit.phar')) {
             return 'php phpunit.phar';
         }
+
         return '';
     }
 
@@ -37,6 +38,7 @@ class ConfigGenerator
         if ($phpunit_path) {
             $default['phpunit'] = $phpunit_path;
         }
+
         return $default;
     }
 }

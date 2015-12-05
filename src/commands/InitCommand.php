@@ -44,17 +44,19 @@ class InitCommand
 
     public function run(array $argv = [])
     {
-        if (file_exists($this->fs->config_file)) {
-            echo $this->fs->relativePath($this->fs->config_file), " already exists.\n";
+        $config_file = $this->fs->getConfigFile();
+        if (file_exists($config_file)) {
+            echo $this->fs->relativePath($config_file), " already exists.\n";
         } else {
-            echo 'Creating '.$this->fs->relativePath($this->fs->config_file), ".\n";
+            echo 'Creating '.$this->fs->relativePath($config_file), ".\n";
             $this->fs->saveConfigFile($this->config_generator->generate());
         }
 
-        if (file_exists($this->fs->phpunit_config_file)) {
-            echo $this->fs->relativePath($this->fs->phpunit_config_file), " already exists.\n";
+        $phpunit_config_file = $this->fs->getPhpunitConfigFile();
+        if (file_exists($phpunit_config_file)) {
+            echo $this->fs->relativePath($phpunit_config_file), " already exists.\n";
         } else {
-            echo 'Creating '.$this->fs->relativePath($this->fs->phpunit_config_file), ".\n";
+            echo 'Creating '.$this->fs->relativePath($phpunit_config_file), ".\n";
             $this->fs->savePhpUnitConfig($this->phpunitConfig($argv));
         }
     }
