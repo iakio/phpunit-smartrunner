@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8b8bb5d91c08029aedc5e2773e463272",
-    "content-hash": "af359f5dbf3f17840c777aa5ff664ea0",
+    "hash": "2a9ea29ff8cce8822a61dd576f380bac",
+    "content-hash": "d0e27f50511d4ccffb2f275ad79b48fc",
     "packages": [
         {
             "name": "webmozart/assert",
