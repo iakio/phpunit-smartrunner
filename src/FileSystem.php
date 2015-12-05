@@ -14,11 +14,6 @@ use Webmozart\PathUtil\Path;
 
 class FileSystem
 {
-    /**
-     * @var string
-     */
-    private $root;
-
     const CACHE_DIR = '.smartrunner';
 
     const CACHE_FILE = 'cache.json';
@@ -29,6 +24,13 @@ class FileSystem
 
     const PHPUNIT_CONFIG_FILE = 'phpunit.xml.dist';
 
+    /**
+     * @var string
+     */
+    private $root;
+
+    private $relative_path_cache;
+
     public function __construct($root)
     {
         $this->root = $root;
@@ -36,6 +38,7 @@ class FileSystem
         $this->cache_file = $this->cache_dir.DIRECTORY_SEPARATOR.self::CACHE_FILE;
         $this->config_file = $this->cache_dir.DIRECTORY_SEPARATOR.self::CONFIG_FILE;
         $this->phpunit_config_file = $this->cache_dir.DIRECTORY_SEPARATOR.self::PHPUNIT_CONFIG_FILE;
+        $this->relative_path_cache = [];
     }
 
     public function fileExists($path)
@@ -45,7 +48,12 @@ class FileSystem
 
     public function relativePath($path)
     {
-        return Path::makeRelative($path, $this->root);
+        if (array_key_exists($path, $this->relative_path_cache)) {
+            return $this->relative_path_cache[$path];
+        }
+        $relative_path = Path::makeRelative($path, $this->root);
+        $this->relative_path_cache[$path] = $relative_path;
+        return $relative_path;
     }
 
     private function ensureDirectory()
