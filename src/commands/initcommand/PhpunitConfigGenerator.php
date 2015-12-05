@@ -51,7 +51,7 @@ class PhpunitConfigGenerator
         }
     }
 
-    private function fixBootstrapPaht($fix_path, DOMElement $node)
+    private function fixBootstrapPath($fix_path, DOMElement $node)
     {
         if ($node->hasAttribute('bootstrap')) {
             $node->setAttribute('bootstrap', Path::canonicalize($fix_path.'/'.$node->getAttribute('bootstrap')));
@@ -73,7 +73,7 @@ class PhpunitConfigGenerator
 
         if ($fix_path) {
             $this->fixSuitePath($fix_path);
-            $this->fixBootstrapPaht($fix_path, $phpunit_nodes->item(0));
+            $this->fixBootstrapPath($fix_path, $phpunit_nodes->item(0));
         }
 
         return $this->doc->saveXML();
