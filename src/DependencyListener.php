@@ -26,12 +26,16 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
     /** @var array */
     private $config;
 
+    /** @var array */
+    private $ignore_cache;
+
     public function __construct()
     {
         $this->fs = new FileSystem(getcwd());
         $this->cache = new Cache($this->fs);
         $this->cache->loadCache();
         $this->config = $this->fs->loadConfig();
+        $this->ignore_cache = [];
     }
 
     public function startTest(PHPUnit_Framework_Test $test)
@@ -41,16 +45,22 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
 
     private function isIgnored($file)
     {
+        if (array_key_exists($file, $this->ignore_cache)) {
+            return $this->ignore_cache[$file];
+        }
         if (strpos($file, 'phar://') === 0) {
+            $this->ignore_cache[$file] = true;
             return true;
         }
         $canonical_path = Path::canonicalize($file);
         foreach ($this->config['cacheignores'] as $pattern) {
             if (Glob::match($canonical_path, Path::makeAbsolute($pattern, getcwd()))) {
+                $this->ignore_cache[$file] = true;
                 return true;
             }
         }
 
+        $this->ignore_cache[$file] = false;
         return false;
     }
 
