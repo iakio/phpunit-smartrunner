@@ -22,7 +22,7 @@ Feature:
           {
               "phpunit": "php phpunit.phar --bootstrap=vendor/autoload.php",
               "cacheignores": [
-                  "vendor\/**\/*"
+                  "^vendor"
               ]
           }
           """

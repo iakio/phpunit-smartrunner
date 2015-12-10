@@ -26,7 +26,7 @@ class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'phpunit' => 'phpunit',
             'cacheignores' => [
-                'vendor/**/*',
+                '^vendor',
             ],
         ];
         $this->assertEquals($expected, $this->generator->generate());

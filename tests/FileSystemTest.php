@@ -46,7 +46,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $merged = [
             'phpunit' => 'phpunit',
             'cacheignores' => [
-                'vendor/**/*',
+                '^vendor',
             ],
         ];
         $this->fs->saveConfigFile($config);

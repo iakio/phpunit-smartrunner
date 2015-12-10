@@ -21,7 +21,7 @@ class SmartRunner
         return [
             'phpunit' => 'phpunit',
             'cacheignores' => [
-                'vendor/**/*',
+                '^vendor'
             ],
         ];
     }

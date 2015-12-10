@@ -12,11 +12,12 @@ namespace iakio\phpunit\smartrunner;
 use PHPUnit_Framework_Test;
 use PHPUnit_Framework_TestSuite;
 use ReflectionClass;
-use Webmozart\Glob\Glob;
-use Webmozart\PathUtil\Path;
 
 class DependencyListener extends \PHPUnit_Framework_BaseTestListener
 {
+    /** @var string */
+    private $root;
+
     /** @var FileSystem */
     private $fs;
 
@@ -31,7 +32,8 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
 
     public function __construct()
     {
-        $this->fs = new FileSystem(getcwd());
+        $this->root = getcwd();
+        $this->fs = new FileSystem($this->root);
         $this->cache = new Cache($this->fs);
         $this->cache->loadCache();
         $this->config = $this->fs->loadConfig();
@@ -52,9 +54,9 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
             $this->ignore_cache[$file] = true;
             return true;
         }
-        $canonical_path = Path::canonicalize($file);
+        $relative_path = $this->fs->relativePath($file);
         foreach ($this->config['cacheignores'] as $pattern) {
-            if (Glob::match($canonical_path, Path::makeAbsolute($pattern, getcwd()))) {
+            if (preg_match('#'.$pattern.'#', $relative_path)) {
                 $this->ignore_cache[$file] = true;
                 return true;
             }

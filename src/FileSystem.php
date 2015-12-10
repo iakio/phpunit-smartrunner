@@ -9,8 +9,6 @@
 
 namespace iakio\phpunit\smartrunner;
 
-use Webmozart\PathUtil\Path;
-
 class FileSystem
 {
     const CACHE_DIR = '.smartrunner';
@@ -54,7 +52,11 @@ class FileSystem
         if (array_key_exists($path, $this->relative_path_cache)) {
             return $this->relative_path_cache[$path];
         }
-        $relative_path = Path::makeRelative($path, $this->root);
+        if (strpos($path, $this->root) === 0) {
+            $relative_path = substr($path, strlen($this->root) + 1);
+        } else {
+            $relative_path = $path;
+        }
         $this->relative_path_cache[$path] = $relative_path;
 
         return $relative_path;

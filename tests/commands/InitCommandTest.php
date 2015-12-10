@@ -15,6 +15,11 @@ use org\bovigo\vfs\vfsStream;
 
 class InitCommandTest extends \PHPUnit_Framework_TestCase
 {
+    private function path($path)
+    {
+        return str_replace("/", DIRECTORY_SEPARATOR, $path);
+    }
+
     public function setUp()
     {
         $this->root = vfsStream::setup();
@@ -33,10 +38,10 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_create_configuration_files()
     {
-        $this->expectOutputString(
+        $this->expectOutputString($this->path(
             "Creating .smartrunner/config.json.\n".
             "Creating .smartrunner/phpunit.xml.dist.\n"
-        );
+        ));
         $this->command->run();
         $this->assertTrue(is_dir($this->cache_dir));
         $this->assertTrue(file_exists($this->cache_dir.'/config.json'));
@@ -45,10 +50,10 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_do_not_overwrite_if_config_file_exists()
     {
-        $this->expectOutputString(
+        $this->expectOutputString($this->path(
             ".smartrunner/config.json already exists.\n".
             "Creating .smartrunner/phpunit.xml.dist.\n"
-        );
+        ));
         mkdir($this->cache_dir);
         touch($this->cache_dir.'/config.json');
         $this->command->run();
@@ -56,10 +61,10 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
 
     public function test_do_not_overwrite_if_phpunit_config_file_exists()
     {
-        $this->expectOutputString(
+        $this->expectOutputString($this->path(
             "Creating .smartrunner/config.json.\n".
             ".smartrunner/phpunit.xml.dist already exists.\n"
-        );
+        ));
         mkdir($this->cache_dir);
         touch($this->cache_dir.'/phpunit.xml.dist');
         $this->command->run();
@@ -69,10 +74,10 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->phpunit_config_generator->generate('<phpunit />', null)->shouldBeCalled();
 
-        $this->expectOutputString(
+        $this->expectOutputString($this->path(
             "Creating .smartrunner/config.json.\n".
             "Creating .smartrunner/phpunit.xml.dist.\n"
-        );
+        ));
         $this->command->run();
     }
 
@@ -81,10 +86,10 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $original_file = $this->root->url().'/phpunit.xml.dist';
         $original_content = '<phpunit colors="true"><listeners><listener class="MyListener"></listener></listeners></phpunit>';
         file_put_contents($original_file, $original_content);
-        $this->expectOutputString(
+        $this->expectOutputString($this->path(
             "Creating .smartrunner/config.json.\n".
             "Creating .smartrunner/phpunit.xml.dist.\n"
-        );
+        ));
 
         $this->phpunit_config_generator->generate($original_content, '..')->shouldBeCalled();
         $this->command->run([$original_file]);
