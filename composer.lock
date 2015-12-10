@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2a9ea29ff8cce8822a61dd576f380bac",
-    "content-hash": "d0e27f50511d4ccffb2f275ad79b48fc",
+    "hash": "d701a35c94e331f6b7a90d46491bc381",
+    "content-hash": "0ea282e812b3fefc66dba0548f6a16ad",
     "packages": [
         {
             "name": "webmozart/assert",
@@ -55,52 +55,6 @@
                 "validate"
             ],
             "time": "2015-08-24 13:29:44"
-        },
-        {
-            "name": "webmozart/glob",
-            "version": "3.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webmozart/glob.git",
-                "reference": "44fd5671153c550a0b772d8f819bff7d913e646f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webmozart/glob/zipball/44fd5671153c550a0b772d8f819bff7d913e646f",
-                "reference": "44fd5671153c550a0b772d8f819bff7d913e646f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3",
-                "webmozart/path-util": "^2.2"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.6",
-                "symfony/filesystem": "^2.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Webmozart\\Glob\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Bernhard Schussek",
-                    "email": "bschussek@gmail.com"
-                }
-            ],
-            "description": "A PHP implementation of Ant's glob.",
-            "time": "2015-08-24 13:32:28"
         },
         {
             "name": "webmozart/path-util",
@@ -822,16 +776,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "5.1.0",
+            "version": "5.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "01fb97441708f1616a97cfd3f5c36101db81c635"
+                "reference": "c047ff05d2279404af9a7e89e2a7151c32c88022"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/01fb97441708f1616a97cfd3f5c36101db81c635",
-                "reference": "01fb97441708f1616a97cfd3f5c36101db81c635",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c047ff05d2279404af9a7e89e2a7151c32c88022",
+                "reference": "c047ff05d2279404af9a7e89e2a7151c32c88022",
                 "shasum": ""
             },
             "require": {
@@ -847,7 +801,7 @@
                 "phpunit/php-file-iterator": "~1.4",
                 "phpunit/php-text-template": "~1.2",
                 "phpunit/php-timer": ">=1.0.6",
-                "phpunit/phpunit-mock-objects": ">=3.0",
+                "phpunit/phpunit-mock-objects": ">=3.0.5",
                 "sebastian/comparator": "~1.1",
                 "sebastian/diff": "~1.2",
                 "sebastian/environment": "~1.3",
@@ -892,20 +846,20 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-12-03 16:45:01"
+            "time": "2015-12-10 07:54:54"
         },
         {
             "name": "phpunit/phpunit-mock-objects",
-            "version": "3.0.4",
+            "version": "3.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
-                "reference": "b28b029356e65091dfbf8c2bc4ef106ffece509e"
+                "reference": "49bc700750196c04dd6bc2c4c99cb632b893836b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/b28b029356e65091dfbf8c2bc4ef106ffece509e",
-                "reference": "b28b029356e65091dfbf8c2bc4ef106ffece509e",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit-mock-objects/zipball/49bc700750196c04dd6bc2c4c99cb632b893836b",
+                "reference": "49bc700750196c04dd6bc2c4c99cb632b893836b",
                 "shasum": ""
             },
             "require": {
@@ -948,7 +902,7 @@
                 "mock",
                 "xunit"
             ],
-            "time": "2015-11-09 15:37:17"
+            "time": "2015-12-08 08:47:06"
         },
         {
             "name": "sebastian/comparator",
@@ -1016,28 +970,28 @@
         },
         {
             "name": "sebastian/diff",
-            "version": "1.3.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/diff.git",
-                "reference": "863df9687835c62aa423a22412d26fa2ebde3fd3"
+                "reference": "13edfd8706462032c2f52b4b862974dd46b71c9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/863df9687835c62aa423a22412d26fa2ebde3fd3",
-                "reference": "863df9687835c62aa423a22412d26fa2ebde3fd3",
+                "url": "https://api.github.com/repos/sebastianbergmann/diff/zipball/13edfd8706462032c2f52b4b862974dd46b71c9e",
+                "reference": "13edfd8706462032c2f52b4b862974dd46b71c9e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4.2"
+                "phpunit/phpunit": "~4.8"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.3-dev"
+                    "dev-master": "1.4-dev"
                 }
             },
             "autoload": {
@@ -1060,11 +1014,11 @@
                 }
             ],
             "description": "Diff implementation",
-            "homepage": "http://www.github.com/sebastianbergmann/diff",
+            "homepage": "https://github.com/sebastianbergmann/diff",
             "keywords": [
                 "diff"
             ],
-            "time": "2015-02-22 15:13:53"
+            "time": "2015-12-08 07:14:41"
         },
         {
             "name": "sebastian/environment",
