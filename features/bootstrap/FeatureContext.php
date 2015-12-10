@@ -34,11 +34,20 @@ class FeatureContext implements Context, SnippetAcceptingContext
     }
 
     /**
+     * @When I initialize smartrunner
+     */
+    public function iInitializeSmartrunner()
+    {
+        exec($this->smartrunner." init");
+    }
+
+    /**
      * @When I run smartrunner with argument :arg
      */
     public function iRunSmartrunnerWithArgument($arg)
     {
-        exec($this->smartrunner." $arg", $output);
+        $file = str_replace("/", DIRECTORY_SEPARATOR, $arg);
+        exec($this->smartrunner." run $file", $output);
         $this->output = trim(implode("\n", $output));
     }
 
