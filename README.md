@@ -35,7 +35,13 @@ $ vendor/bin/smartrunner run src/Calc.php
 
 # Setting Examples
 
-## watchy
+## [gomon](https://github.com/c9s/gomon)
+
+```
+> gomon -m=\.php$ -R -F -- vendor\bin\smartrunner run
+```
+
+## [watchy](https://www.npmjs.com/package/watchy)
 
 ```
 $ watchy -w . -- bash -c 'vendor/bin/smartrunner run $FILE'
@@ -43,7 +49,7 @@ or
 > watchy -w . -- cmd /C "vendor\bin\smartrunner run %FILE%"
 ```
 
-## grunt
+## [grunt](http://gruntjs.com/)
 
 ```
 module.exports = function (grunt) {
@@ -90,6 +96,7 @@ If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
 
 # Requirement
 
+- php >= 5.4
 - xdebug
 
 # License
