@@ -77,6 +77,9 @@ class FeatureContext implements Context, SnippetAcceptingContext
             curl_setopt($ch, CURLOPT_URL, 'https://phar.phpunit.de/phpunit.phar');
             curl_setopt($ch, CURLOPT_FILE, fopen('phpunit.phar', 'w'));
             curl_setopt($ch, CURLOPT_NOPROGRESS, false);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_HTTP_VERSION, CURL_HTTP_VERSION_1_1);
+            curl_setopt($ch, CURLOPT_VERBOSE, true);
             curl_exec($ch);
         }
     }
