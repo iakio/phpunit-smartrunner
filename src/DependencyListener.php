@@ -27,9 +27,6 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
     /** @var array */
     private $config;
 
-    /** @var array */
-    private $ignore_cache;
-
     public function __construct()
     {
         $this->root = getcwd();
@@ -37,7 +34,6 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         $this->cache = new Cache($this->fs);
         $this->cache->loadCache();
         $this->config = $this->fs->loadConfig();
-        $this->ignore_cache = [];
     }
 
     public function startTest(PHPUnit_Framework_Test $test)
@@ -45,25 +41,29 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         xdebug_start_code_coverage();
     }
 
-    private function isIgnored($file)
+    private function isIgnoredInternal($file)
     {
-        if (array_key_exists($file, $this->ignore_cache)) {
-            return $this->ignore_cache[$file];
-        }
         if (strpos($file, 'phar://') === 0) {
-            $this->ignore_cache[$file] = true;
             return true;
         }
         $relative_path = $this->fs->relativePath($file);
         foreach ($this->config['cacheignores'] as $pattern) {
             if (preg_match('#'.$pattern.'#', $relative_path)) {
-                $this->ignore_cache[$file] = true;
                 return true;
             }
         }
 
-        $this->ignore_cache[$file] = false;
         return false;
+    }
+
+    private function isIgnored($file)
+    {
+        static $memo = [];
+
+        if (array_key_exists($file, $memo)) {
+            return $memo[$file];
+        }
+        return $memo[$file] = $this->isIgnoredInternal($file);
     }
 
     public function endTest(PHPUnit_Framework_Test $test, $time)
