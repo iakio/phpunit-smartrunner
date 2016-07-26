@@ -74,7 +74,8 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
         $this->fs->saveSuiteFile(Argument::any())->shouldNotBeCalled();
         $this->command->run([$arg]);
         $this->expectOutputString(
-            ".smartrunner directory does not exist.\n"
+            ".smartrunner directory does not exist.\n".
+            "Run `smartrunner init [phpunit.xml]` first.\n"
         );
     }
 

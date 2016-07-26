@@ -29,6 +29,9 @@ class RunCommand
         $this->fs = $fs;
     }
 
+    /**
+     * @param array $argv
+     */
     public function run(array $argv)
     {
         if (count($argv) === 0) {
@@ -38,6 +41,7 @@ class RunCommand
         }
         if (!$this->fs->cacheDirExists()) {
             echo $this->fs->cacheDir()." directory does not exist.\n";
+            echo "Run `smartrunner init [phpunit.xml]` first.\n";
 
             return;
         }
