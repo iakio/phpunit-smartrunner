@@ -12,7 +12,7 @@ Feature:
         And I run smartrunner with argument "features/fixtures/tests/BankAccountTest.php"
         And I run smartrunner with argument "features/fixtures/src/Calc.php"
         Then 2 tests and 2 assertions should be executed
-        And Cache should contain 5 entries
+        And Cache should contain 4 entries
 
     @phpunit.phar
     Scenario: Using phpunit.phar
@@ -30,4 +30,4 @@ Feature:
         And I run smartrunner with argument "features/fixtures/tests/BankAccountTest.php"
         And I run smartrunner with argument "features/fixtures/src/Calc.php"
         Then 2 tests and 2 assertions should be executed
-        And Cache should contain 5 entries
+        And Cache should contain 4 entries

@@ -2,7 +2,7 @@ phpunit-smartrunner
 ===================
 [![Build Status](https://travis-ci.org/iakio/phpunit-smartrunner.svg?branch=master)](https://travis-ci.org/iakio/phpunit-smartrunner)
 
-`smartrunner` resolves dependencies between SUTs and test cases using xdebug coverage data.
+`smartrunner` resolves dependencies between SUTs and test cases by code coverage data using phpdbg or xdebug.
 
 * When `smartrunner` is invoked with an argument `CalcTest.php`, it runs `CalcTest.php` test case.
 * When `smartrunner` is invoked with an argument `Calc.php`, it also runs `CalcTest.php`. Additionally, it may run all test cases related to `Calc.php`.
@@ -97,7 +97,7 @@ If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
 # Requirement
 
 - php >= 5.4
-- xdebug
+- phpdbg or xdebug
 
 # License
 

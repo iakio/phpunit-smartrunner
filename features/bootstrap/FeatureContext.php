@@ -98,6 +98,10 @@ class FeatureContext implements Context, SnippetAcceptingContext
     public function cacheShouldContainEntries($num)
     {
         $cache = json_decode(file_get_contents('.smartrunner/cache.json'), true);
-        PHPUnit_Framework_Assert::assertEquals($num, count($cache));
+        // ignore `src\\DependencyListener.php`
+        $without_listeners = array_filter($cache, function ($entry) {
+            return preg_match('/^features/', $entry);
+        }, ARRAY_FILTER_USE_KEY);
+        PHPUnit_Framework_Assert::assertEquals($num, count($without_listeners));
     }
 }
