@@ -47,6 +47,11 @@ class FileSystem
         return file_exists($path);
     }
 
+    public function phpdbgExists()
+    {
+        return system("phpdbg -V");
+    }
+
     public function relativePath($path)
     {
         if (array_key_exists($path, $this->relative_path_cache)) {

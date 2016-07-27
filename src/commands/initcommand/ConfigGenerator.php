@@ -14,6 +14,11 @@ use iakio\phpunit\smartrunner\FileSystem;
 
 class ConfigGenerator
 {
+    /**
+     * @var FileSystem
+     */
+    private $fs;
+
     public function __construct(FileSystem $fs)
     {
         $this->fs = $fs;
@@ -21,11 +26,20 @@ class ConfigGenerator
 
     private function findPhpunit()
     {
+        $has_phpdbg = $this->fs->phpdbgExists();
         if ($this->fs->fileExists('vendor/bin/phpunit')) {
-            return implode(DIRECTORY_SEPARATOR, ['vendor', 'bin', 'phpunit']);
+            if ($has_phpdbg) {
+                return "phpdbg -qrr ".implode(DIRECTORY_SEPARATOR, ['vendor', 'phpunit', 'phpunit', 'phpunit']);
+            } else {
+                return implode(DIRECTORY_SEPARATOR, ['vendor', 'bin', 'phpunit']);
+            }
         }
         if ($this->fs->fileExists('phpunit.phar')) {
-            return 'php phpunit.phar';
+            if ($has_phpdbg) {
+                return 'phpdbg -qrr phpunit.phar';
+            } else {
+                return 'php phpunit.phar';
+            }
         }
 
         return '';
