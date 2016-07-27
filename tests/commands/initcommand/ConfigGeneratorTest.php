@@ -22,7 +22,9 @@ class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
 
     public function test_generate_default_config_file()
     {
-        $this->fs->fileExists(Argument::any())->willReturn(false);
+        $this->fs->fileExists('vendor/bin/phpunit')->willReturn(false);
+        $this->fs->fileExists('phpunit.phar')->willReturn(false);
+        $this->fs->phpdbgExists()->willReturn(false);
         $expected = [
             'phpunit' => 'phpunit',
             'cacheignores' => [
@@ -35,6 +37,7 @@ class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
     public function test_set_phpunit_path_if_exists()
     {
         $this->fs->fileExists('vendor/bin/phpunit')->willReturn(true);
+        $this->fs->phpdbgExists()->willReturn(false);
         $actual = $this->generator->generate();
         $this->assertThat(
             $actual['phpunit'],
@@ -48,5 +51,28 @@ class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->fs->fileExists('phpunit.phar')->willReturn(true);
         $actual = $this->generator->generate();
         $this->assertEquals('php phpunit.phar', $actual['phpunit']);
+    }
+
+    public function test_use_phpdbg_if_exists()
+    {
+        $this->fs->fileExists('vendor/bin/phpunit')->willReturn(true);
+        $this->fs->fileExists('phpunit.phar')->willReturn(false);
+        $this->fs->phpdbgExists()->willReturn(true);
+        $actual = $this->generator->generate();
+        $this->assertThat(
+            $actual['phpunit'],
+            $this->logicalOr(
+                'phpdbg -qrr vendor/phpunit/phpunit/phpunit',
+                'phpdbg -qrr vendor\phpunit\phpunit\phpunit'
+            )
+        );
+
+        $this->fs->fileExists('vendor/bin/phpunit')->willReturn(false);
+        $this->fs->fileExists('phpunit.phar')->willReturn(true);
+        $actual = $this->generator->generate();
+        $this->assertThat(
+            $actual['phpunit'],
+            $this->equalTo('phpdbg -qrr phpunit.phar')
+        );
     }
 }
