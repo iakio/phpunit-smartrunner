@@ -9,11 +9,14 @@
 
 namespace iakio\phpunit\smartrunner;
 
+use PHPUnit_Framework_BaseTestListener;
 use PHPUnit_Framework_Test;
 use PHPUnit_Framework_TestSuite;
 use ReflectionClass;
+use iakio\phpunit\smartrunner\drivers\XdebugDriver;
+use iakio\phpunit\smartrunner\drivers\PhpdbgDriver;
 
-class DependencyListener extends \PHPUnit_Framework_BaseTestListener
+class DependencyListener extends PHPUnit_Framework_BaseTestListener
 {
     /** @var string */
     private $root;
@@ -34,7 +37,11 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         $this->cache = new Cache($this->fs);
         $this->cache->loadCache();
         $this->config = $this->fs->loadConfig();
-        $this->driver = new drivers\XdebugDriver();
+        if (function_exists('phpdbg_start_oplog')) {
+            $this->driver = new PhpdbgDriver();
+        } else {
+            $this->driver = new XdebugDriver();
+        }
     }
 
     public function startTest(PHPUnit_Framework_Test $test)

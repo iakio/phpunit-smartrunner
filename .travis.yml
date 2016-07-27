@@ -29,3 +29,5 @@ matrix:
     include:
         - php: 7.0
           env: BEHAT_TAGS="--tags=@phpunit.phar"
+        - php: 7.0
+          env: BEHAT_TAGS="--tags=@phpdbg"
