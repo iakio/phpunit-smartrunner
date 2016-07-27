@@ -9,11 +9,14 @@
 
 namespace iakio\phpunit\smartrunner;
 
+use PHPUnit_Framework_BaseTestListener;
 use PHPUnit_Framework_Test;
 use PHPUnit_Framework_TestSuite;
 use ReflectionClass;
+use iakio\phpunit\smartrunner\drivers\XdebugDriver;
+use iakio\phpunit\smartrunner\drivers\PhpdbgDriver;
 
-class DependencyListener extends \PHPUnit_Framework_BaseTestListener
+class DependencyListener extends PHPUnit_Framework_BaseTestListener
 {
     /** @var string */
     private $root;
@@ -34,11 +37,16 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
         $this->cache = new Cache($this->fs);
         $this->cache->loadCache();
         $this->config = $this->fs->loadConfig();
+        if (function_exists('phpdbg_start_oplog')) {
+            $this->driver = new PhpdbgDriver();
+        } else {
+            $this->driver = new XdebugDriver();
+        }
     }
 
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        xdebug_start_code_coverage();
+        $this->driver->startCodeCoverage();
     }
 
     private function isIgnoredInternal($file)
@@ -70,13 +78,12 @@ class DependencyListener extends \PHPUnit_Framework_BaseTestListener
     {
         $class = new ReflectionClass($test);
         $testFile = $class->getFileName();
-        $executedFiles = array_keys(xdebug_get_code_coverage());
+        $executedFiles = array_keys($this->driver->stopCodeCoverage());
         foreach ($executedFiles as $executedFile) {
             if (!$this->isIgnored($executedFile)) {
                 $this->cache->add($executedFile, $testFile);
             }
         }
-        xdebug_stop_code_coverage();
     }
 
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
