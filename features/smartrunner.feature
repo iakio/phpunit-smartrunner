@@ -34,10 +34,10 @@ Feature:
 
     @phpdbg
     Scenario: Using phpdbg
-        Givem I set up my configuration file as
+        Given I set up my configuration file as
           """
           {
-              "phpunit": "phpdbg -qrr php vendor/phpunit/phpunit/phpunit",
+              "phpunit": "phpdbg -qrr vendor/phpunit/phpunit/phpunit",
               "cacheignores": [
                   "^vendor"
               ]
