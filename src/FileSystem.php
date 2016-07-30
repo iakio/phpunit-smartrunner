@@ -49,7 +49,11 @@ class FileSystem
 
     public function phpdbgExists()
     {
-        return system("phpdbg -V");
+        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+            return system("phpdbg -V 2>NUL");
+        } else {
+            return system("phpdbg -V");
+        }
     }
 
     public function relativePath($path)
