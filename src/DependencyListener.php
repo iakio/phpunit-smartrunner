@@ -48,6 +48,9 @@ class DependencyListener extends PHPUnit_Framework_BaseTestListener
         }
     }
 
+    /**
+     * @param PHPUnit_Framework_Test $test
+     */
     public function startTest(PHPUnit_Framework_Test $test)
     {
         $this->driver->startCodeCoverage();
@@ -73,6 +76,10 @@ class DependencyListener extends PHPUnit_Framework_BaseTestListener
         return $memo[$file] = $this->isIgnoredInternal($file);
     }
 
+    /**
+     * @param PHPUnit_Framework_Test $test
+     * @param float $time
+     */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
         $class = new ReflectionClass($test);
@@ -85,6 +92,9 @@ class DependencyListener extends PHPUnit_Framework_BaseTestListener
         }
     }
 
+    /**
+     * @param PHPUnit_Framework_TestSuite $suite
+     */
     public function endTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
         $this->cache->saveCache();
