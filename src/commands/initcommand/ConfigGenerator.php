@@ -9,6 +9,7 @@
 
 namespace iakio\phpunit\smartrunner\commands\initcommand;
 
+use iakio\phpunit\smartrunner\Config;
 use iakio\phpunit\smartrunner\SmartRunner;
 use iakio\phpunit\smartrunner\FileSystem;
 
@@ -45,9 +46,12 @@ class ConfigGenerator
         return '';
     }
 
+    /**
+     * @return Config
+     */
     public function generate()
     {
-        $default = SmartRunner::defaultConfig();
+        $default = Config::defaultConfig();
         $phpunit_path = $this->findPhpunit();
         if ($phpunit_path) {
             $default['phpunit'] = $phpunit_path;

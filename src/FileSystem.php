@@ -127,17 +127,25 @@ EOD;
         file_put_contents($this->phpunit_config_file, $config);
     }
 
-    public function saveConfigFile(array $config)
+    /**
+     * @param Config $config
+     */
+    public function saveConfigFile(Config $config)
     {
         $this->ensureDirectory();
-        file_put_contents($this->config_file, json_encode($config, JSON_PRETTY_PRINT));
+        file_put_contents($this->config_file, json_encode($config->getArrayCopy(), JSON_PRETTY_PRINT));
     }
 
+    /**
+     * @return Config
+     */
     public function loadConfig()
     {
-        $config = SmartRunner::defaultConfig();
+        $config = Config::defaultConfig();
         if (file_exists($this->config_file)) {
-            $config = array_merge($config, json_decode(file_get_contents($this->config_file), true));
+            $config = $config->merge(
+                json_decode(file_get_contents($this->config_file), true)
+            );
         }
 
         return $config;

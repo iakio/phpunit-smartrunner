@@ -9,11 +9,15 @@
 
 namespace iakio\phpunit\smartrunner\tests;
 
+use iakio\phpunit\smartrunner\Config;
 use iakio\phpunit\smartrunner\FileSystem;
 use org\bovigo\vfs\vfsStream;
 
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  FileSystem */
+    private $fs;
+
     public function setUp()
     {
         $this->root = vfsStream::setup();
@@ -49,7 +53,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
                 '^vendor',
             ],
         ];
-        $this->fs->saveConfigFile($config);
-        $this->assertEquals($merged, $this->fs->loadConfig());
+        $this->fs->saveConfigFile(new Config($config));
+        $this->assertEquals($merged, $this->fs->loadConfig()->getArrayCopy());
     }
 }
