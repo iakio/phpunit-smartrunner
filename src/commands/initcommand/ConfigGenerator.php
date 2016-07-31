@@ -46,6 +46,9 @@ class ConfigGenerator
         return '';
     }
 
+    /**
+     * @return Config
+     */
     public function generate()
     {
         $default = Config::defaultConfig();

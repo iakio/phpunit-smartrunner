@@ -10,6 +10,7 @@
 namespace iakio\phpunit\smartrunner\commands\tests;
 
 use iakio\phpunit\smartrunner\commands\InitCommand;
+use iakio\phpunit\smartrunner\Config;
 use iakio\phpunit\smartrunner\FileSystem;
 use org\bovigo\vfs\vfsStream;
 
@@ -29,7 +30,7 @@ class InitCommandTest extends \PHPUnit_Framework_TestCase
         $this->config_generator = $this->prophesize(
             'iakio\phpunit\smartrunner\commands\initcommand\ConfigGenerator'
         );
-        $this->config_generator->generate()->willReturn([]);
+        $this->config_generator->generate()->willReturn(new Config([]));
         $this->phpunit_config_generator = $this->prophesize(
             'iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator'
         );

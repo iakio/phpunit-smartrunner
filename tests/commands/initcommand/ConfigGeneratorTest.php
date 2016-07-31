@@ -14,6 +14,9 @@ use Prophecy\Argument;
 
 class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  ConfigGenerator */
+    private $generator;
+
     public function setUp()
     {
         $this->fs = $this->prophesize('iakio\phpunit\smartrunner\FileSystem');
@@ -31,7 +34,7 @@ class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
                 '^vendor',
             ],
         ];
-        $this->assertEquals($expected, $this->generator->generate());
+        $this->assertEquals($expected, $this->generator->generate()->getArrayCopy());
     }
 
     public function test_set_phpunit_path_if_exists()

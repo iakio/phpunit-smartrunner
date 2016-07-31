@@ -10,19 +10,33 @@
 namespace iakio\phpunit\smartrunner;
 
 
-class Config
+class Config extends \ArrayObject
 {
     /**
-     * @return array
+     * @return Config
      */
     public static function defaultConfig()
     {
-        return [
+        return new self([
             'phpunit' => 'phpunit',
             'cacheignores' => [
                 '^vendor'
             ],
-        ];
+        ]);
+    }
+
+    /**
+     * @param array $other
+     * @return Config
+     */
+    public function merge(array $other)
+    {
+        return new self(
+            array_merge(
+                $this->getArrayCopy(),
+                $other
+            )
+        );
     }
 
 }
