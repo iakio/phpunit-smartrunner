@@ -9,6 +9,7 @@
 
 namespace iakio\phpunit\smartrunner;
 
+use iakio\phpunit\smartrunner\drivers\Driver;
 use PHPUnit_Framework_BaseTestListener;
 use PHPUnit_Framework_Test;
 use PHPUnit_Framework_TestSuite;
@@ -27,8 +28,11 @@ class DependencyListener extends PHPUnit_Framework_BaseTestListener
     /** @var Cache */
     private $cache;
 
-    /** @var array */
+    /** @var Config */
     private $config;
+
+    /** @var Driver */
+    private $driver;
 
     public function __construct()
     {
@@ -55,13 +59,8 @@ class DependencyListener extends PHPUnit_Framework_BaseTestListener
             return true;
         }
         $relative_path = $this->fs->relativePath($file);
-        foreach ($this->config['cacheignores'] as $pattern) {
-            if (preg_match('#'.$pattern.'#', $relative_path)) {
-                return true;
-            }
-        }
 
-        return false;
+        return $this->config->isIgnored($relative_path);
     }
 
     private function isIgnored($file)

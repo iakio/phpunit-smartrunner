@@ -39,4 +39,18 @@ class Config extends \ArrayObject
         );
     }
 
+    /**
+     * @param string $relative_path
+     * @return bool
+     */
+    public function isIgnored($relative_path)
+    {
+        foreach ($this['cacheignores'] as $pattern) {
+            if (preg_match('#'.$pattern.'#', $relative_path)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
