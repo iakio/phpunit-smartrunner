@@ -17,7 +17,7 @@ class FileSystem
 
     const SUITE_FILE = 'suite.php';
 
-    const CONFIG_FILE = 'config.json';
+    const CONFIG_FILE = 'config.php';
 
     const PHPUNIT_CONFIG_FILE = 'phpunit.xml.dist';
 

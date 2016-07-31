@@ -89,7 +89,7 @@ class FeatureContext implements Context, SnippetAcceptingContext
      */
     public function iSetUpMyConfigurationFileAs(PyStringNode $string)
     {
-        file_put_contents('.smartrunner/config.json', (string) $string);
+        file_put_contents('.smartrunner/config.php', (string) $string);
     }
 
     /**

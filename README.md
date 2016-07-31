@@ -83,7 +83,7 @@ module.exports = function (grunt) {
 ```
 # Configuration
 
-If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
+If you want to use `phpunit.phar`, change your `.smartrunner/config.php`:
 
 ```
 {
