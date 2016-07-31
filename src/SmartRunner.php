@@ -16,15 +16,6 @@ use iakio\phpunit\smartrunner\commands\RunCommand;
 
 class SmartRunner
 {
-    public static function defaultConfig()
-    {
-        return [
-            'phpunit' => 'phpunit',
-            'cacheignores' => [
-                '^vendor'
-            ],
-        ];
-    }
 
     public static function createRunCommand()
     {

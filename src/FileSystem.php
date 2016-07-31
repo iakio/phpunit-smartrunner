@@ -135,7 +135,7 @@ EOD;
 
     public function loadConfig()
     {
-        $config = SmartRunner::defaultConfig();
+        $config = Config::defaultConfig();
         if (file_exists($this->config_file)) {
             $config = array_merge($config, json_decode(file_get_contents($this->config_file), true));
         }
