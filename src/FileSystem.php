@@ -133,7 +133,15 @@ EOD;
     public function saveConfigFile(Config $config)
     {
         $this->ensureDirectory();
-        file_put_contents($this->config_file, json_encode($config->getArrayCopy(), JSON_PRETTY_PRINT));
+        $config_str = <<<EOD
+<?php
+\$config = [];
+EOD;
+        foreach ($config as $key => $val) {
+            $config_str .= "\n\$config['$key'] = ".var_export($val, true).";";
+        }
+        $config_str .= "\nreturn \$config;";
+        file_put_contents($this->config_file, $config_str);
     }
 
     /**
@@ -144,7 +152,7 @@ EOD;
         $config = Config::defaultConfig();
         if (file_exists($this->config_file)) {
             $config = $config->merge(
-                json_decode(file_get_contents($this->config_file), true)
+                require $this->config_file
             );
         }
 
