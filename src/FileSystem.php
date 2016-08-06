@@ -17,7 +17,7 @@ class FileSystem
 
     const SUITE_FILE = 'suite.php';
 
-    const CONFIG_FILE = 'config.json';
+    const CONFIG_FILE = 'config.php';
 
     const PHPUNIT_CONFIG_FILE = 'phpunit.xml.dist';
 
@@ -133,7 +133,15 @@ EOD;
     public function saveConfigFile(Config $config)
     {
         $this->ensureDirectory();
-        file_put_contents($this->config_file, json_encode($config->getArrayCopy(), JSON_PRETTY_PRINT));
+        $config_str = <<<EOD
+<?php
+return function (\$config) {
+EOD;
+        foreach ($config as $key => $val) {
+            $config_str .= "\n    \$config['$key'] = ".var_export($val, true).";";
+        }
+        $config_str .= "\n};\n";
+        file_put_contents($this->config_file, $config_str);
     }
 
     /**
@@ -143,9 +151,8 @@ EOD;
     {
         $config = Config::defaultConfig();
         if (file_exists($this->config_file)) {
-            $config = $config->merge(
-                json_decode(file_get_contents($this->config_file), true)
-            );
+            $configurator = require $this->config_file;
+            $configurator($config);
         }
 
         return $config;

@@ -83,15 +83,16 @@ module.exports = function (grunt) {
 ```
 # Configuration
 
-If you want to use `phpunit.phar`, change your `.smartrunner/config.json`:
+If you want to use `phpunit.phar`, change your `.smartrunner/config.php`:
 
 ```
-{
-    "phpunit": "php phpunit.phar",
-    "cacheignores": [
+<?php
+return function ($config) {
+    $config["phpunit"] = "php phpunit.phar";
+    $config["cacheignores"] = [
         "vendor\/**\/*"
-    ]
-}
+    ];
+};
 ```
 
 # Requirement

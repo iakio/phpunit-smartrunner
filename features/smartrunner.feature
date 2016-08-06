@@ -18,14 +18,15 @@ Feature:
     Scenario: Using phpunit.phar
         Given I have phpunit.phar file
         And I set up my configuration file as
-          """
-          {
-              "phpunit": "php phpunit.phar --bootstrap=vendor/autoload.php",
-              "cacheignores": [
-                  "^vendor"
-              ]
-          }
-          """
+            """
+            <?php
+            return function ($config) {
+                $config["phpunit"] = "php phpunit.phar --bootstrap=vendor/autoload.php";
+                $config["cacheignores"] = [
+                    "^vendor"
+                ];
+            };
+            """
         When I run smartrunner with argument "features/fixtures/tests/CalcTest.php"
         And I run smartrunner with argument "features/fixtures/tests/BankAccountTest.php"
         And I run smartrunner with argument "features/fixtures/src/Calc.php"
@@ -35,14 +36,15 @@ Feature:
     @phpdbg
     Scenario: Using phpdbg
         Given I set up my configuration file as
-          """
-          {
-              "phpunit": "phpdbg -qrr vendor/phpunit/phpunit/phpunit",
-              "cacheignores": [
-                  "^vendor"
-              ]
-          }
-          """
+            """
+            <?php
+            return function ($config) {
+                $config["phpunit"] = "phpdbg -qrr vendor/phpunit/phpunit/phpunit";
+                $config["cacheignores"] = [
+                    "^vendor"
+                ];
+            };
+            """
         When I run smartrunner with argument "features/fixtures/tests/CalcTest.php"
         And I run smartrunner with argument "features/fixtures/tests/BankAccountTest.php"
         And I run smartrunner with argument "features/fixtures/src/Calc.php"
