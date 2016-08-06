@@ -135,12 +135,12 @@ EOD;
         $this->ensureDirectory();
         $config_str = <<<EOD
 <?php
-\$config = [];
+return function (\$config) {
 EOD;
         foreach ($config as $key => $val) {
-            $config_str .= "\n\$config['$key'] = ".var_export($val, true).";";
+            $config_str .= "\n    \$config['$key'] = ".var_export($val, true).";";
         }
-        $config_str .= "\nreturn \$config;";
+        $config_str .= "\n};\n";
         file_put_contents($this->config_file, $config_str);
     }
 
@@ -151,9 +151,8 @@ EOD;
     {
         $config = Config::defaultConfig();
         if (file_exists($this->config_file)) {
-            $config = $config->merge(
-                require $this->config_file
-            );
+            $configurator = require $this->config_file;
+            $configurator($config);
         }
 
         return $config;

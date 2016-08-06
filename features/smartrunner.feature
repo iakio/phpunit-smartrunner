@@ -20,12 +20,12 @@ Feature:
         And I set up my configuration file as
             """
             <?php
-            $config = [];
-            $config["phpunit"] = "php phpunit.phar --bootstrap=vendor/autoload.php";
-            $config["cacheignores"] = [
-                "^vendor"
-            ];
-            return $config;
+            return function ($config) {
+                $config["phpunit"] = "php phpunit.phar --bootstrap=vendor/autoload.php";
+                $config["cacheignores"] = [
+                    "^vendor"
+                ];
+            };
             """
         When I run smartrunner with argument "features/fixtures/tests/CalcTest.php"
         And I run smartrunner with argument "features/fixtures/tests/BankAccountTest.php"
@@ -38,12 +38,12 @@ Feature:
         Given I set up my configuration file as
             """
             <?php
-            $config = [];
-            $config["phpunit"] = "phpdbg -qrr vendor/phpunit/phpunit/phpunit";
-            $config["cacheignores"] = [
-                "^vendor"
-            ];
-            return $config;
+            return function ($config) {
+                $config["phpunit"] = "phpdbg -qrr vendor/phpunit/phpunit/phpunit";
+                $config["cacheignores"] = [
+                    "^vendor"
+                ];
+            };
             """
         When I run smartrunner with argument "features/fixtures/tests/CalcTest.php"
         And I run smartrunner with argument "features/fixtures/tests/BankAccountTest.php"
