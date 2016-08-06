@@ -89,7 +89,7 @@ If you want to use `phpunit.phar`, change your `.smartrunner/config.php`:
 <?php
 return function ($config) {
     $config["phpunit"] = "php phpunit.phar";
-    $config["cacheignores"] = [
+    $config["ignore"] = [
         "vendor\/**\/*"
     ];
 };

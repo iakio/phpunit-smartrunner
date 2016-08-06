@@ -12,9 +12,13 @@ namespace iakio\phpunit\smartrunner\tests;
 use iakio\phpunit\smartrunner\Config;
 use iakio\phpunit\smartrunner\FileSystem;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  vfsStreamDirectory */
+    private $root;
+
     /** @var  FileSystem */
     private $fs;
 
@@ -49,7 +53,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         ];
         $merged = [
             'phpunit' => 'phpunit',
-            'cacheignores' => [
+            'ignore' => [
                 '^vendor',
             ],
         ];

@@ -12,9 +12,16 @@ namespace iakio\phpunit\smartrunner\tests;
 use iakio\phpunit\smartrunner\Cache;
 use iakio\phpunit\smartrunner\FileSystem;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  vfsStreamDirectory */
+    private $root;
+
+    /** @var  FileSystem */
+    private $fs;
+
     public function setUp()
     {
         $this->root = vfsStream::setup();

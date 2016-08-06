@@ -10,12 +10,33 @@
 namespace iakio\phpunit\smartrunner\commands\tests;
 
 use iakio\phpunit\smartrunner\commands\InitCommand;
+use iakio\phpunit\smartrunner\commands\initcommand\ConfigGenerator;
+use iakio\phpunit\smartrunner\commands\initcommand\PhpunitConfigGenerator;
 use iakio\phpunit\smartrunner\Config;
 use iakio\phpunit\smartrunner\FileSystem;
 use org\bovigo\vfs\vfsStream;
+use org\bovigo\vfs\vfsStreamDirectory;
 
 class InitCommandTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  vfsStreamDirectory */
+    private $root;
+
+    /** @var  string */
+    private $cache_dir;
+
+    /** @var  ConfigGenerator */
+    private $config_generator;
+
+    /** @var  PhpunitConfigGenerator */
+    private $phpunit_config_generator;
+
+    /** @var  FileSystem */
+    private $fs;
+
+    /** @var  InitCommand */
+    private $command;
+
     private function path($path)
     {
         return str_replace("/", DIRECTORY_SEPARATOR, $path);

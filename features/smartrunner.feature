@@ -22,7 +22,7 @@ Feature:
             <?php
             return function ($config) {
                 $config["phpunit"] = "php phpunit.phar --bootstrap=vendor/autoload.php";
-                $config["cacheignores"] = [
+                $config["ignore"] = [
                     "^vendor"
                 ];
             };
@@ -40,7 +40,7 @@ Feature:
             <?php
             return function ($config) {
                 $config["phpunit"] = "phpdbg -qrr vendor/phpunit/phpunit/phpunit";
-                $config["cacheignores"] = [
+                $config["ignore"] = [
                     "^vendor"
                 ];
             };

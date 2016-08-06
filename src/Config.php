@@ -19,7 +19,7 @@ class Config extends \ArrayObject
     {
         return new self([
             'phpunit' => 'phpunit',
-            'cacheignores' => [
+            'ignore' => [
                 '^vendor'
             ],
         ]);
@@ -45,7 +45,7 @@ class Config extends \ArrayObject
      */
     public function isIgnored($relative_path)
     {
-        foreach ($this['cacheignores'] as $pattern) {
+        foreach ($this['ignore'] as $pattern) {
             if (preg_match('#'.$pattern.'#', $relative_path)) {
                 return true;
             }

@@ -11,13 +11,23 @@ namespace iakio\phpunit\smartrunner\commands\tests;
 
 use iakio\phpunit\smartrunner\commands\RunCommand;
 use iakio\phpunit\smartrunner\Cache;
+use iakio\phpunit\smartrunner\FileSystem;
+use iakio\phpunit\smartrunner\Phpunit;
 use Prophecy\Argument;
 
 class RunCommandTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var  Cache */
     private $cache;
+
+    /** @var  FileSystem */
     private $fs;
+
+    /** @var  Phpunit */
     private $phpunit;
+
+    /** @var  RunCommand */
+    private $command;
 
     public function setUp()
     {

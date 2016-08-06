@@ -30,7 +30,7 @@ class ConfigGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->fs->phpdbgExists()->willReturn(false);
         $expected = [
             'phpunit' => 'phpunit',
-            'cacheignores' => [
+            'ignore' => [
                 '^vendor',
             ],
         ];
