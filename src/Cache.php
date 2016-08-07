@@ -21,6 +21,10 @@ class Cache
      */
     private $fs;
 
+    /**
+     * Cache constructor.
+     * @param FileSystem $fs
+     */
     public function __construct(FileSystem $fs)
     {
         $this->cache = [];
@@ -37,6 +41,10 @@ class Cache
         $this->fs->saveCache($this->cache);
     }
 
+    /**
+     * @param string $key
+     * @param string $val
+     */
     public function add($key, $val)
     {
         $key = $this->fs->relativePath($key);
@@ -50,6 +58,10 @@ class Cache
         }
     }
 
+    /**
+     * @param string $key
+     * @return array
+     */
     public function get($key)
     {
         $key = $this->fs->relativePath($key);
@@ -58,5 +70,18 @@ class Cache
         }
 
         return [];
+    }
+
+    /**
+     * @param string $key
+     * @param string $val
+     */
+    public function remove($key, $val)
+    {
+        $key = $this->fs->relativePath($key);
+        $val = $this->fs->relativePath($val);
+        if (array_key_exists($key, $this->cache)) {
+            unset($this->cache[$key][$val]);
+        }
     }
 }

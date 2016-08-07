@@ -56,6 +56,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldBeCalled()
             ->willReturn([]);
         $this->fs->saveSuiteFile([$arg])->shouldBeCalled();
+        $this->fs->fileExists(Argument::any())->willReturn(true);
 
         $this->phpunit->exec(Argument::any())->shouldBeCalled();
         $this->command->run([$arg]);
@@ -72,6 +73,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldBeCalled()
             ->willReturn($related_tests);
         $this->fs->saveSuiteFile($related_tests)->shouldBeCalled();
+        $this->fs->fileExists(Argument::any())->willReturn(true);
         $this->phpunit->exec(Argument::any())->shouldBeCalled();
         $this->command->run([$arg]);
     }
@@ -93,5 +95,25 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->command->run([]);
         $this->expectOutputRegex('/Usage/');
+    }
+
+    public function test_remove_cache_if_files_do_not_exist()
+    {
+        $arg = 'src/Calc.php';
+        $related_tests = [
+            'tests/BankAccountTest.php',
+            'tests/CalcTest.php',
+        ];
+        $this->cache->get($arg)
+            ->shouldBeCalled()
+            ->willReturn($related_tests);
+        $this->cache->remove('src/Calc.php', 'tests/BankAccountTest.php')->shouldBeCalled();
+        $this->cache->saveCache()->shouldBeCalled();
+
+        $this->fs->cacheDir()->willReturn('.smartrunner');
+        $this->fs->fileExists('tests/BankAccountTest.php')->willReturn(false);
+        $this->fs->fileExists('tests/CalcTest.php')->willReturn(true);
+        $this->fs->saveSuiteFile(['tests/CalcTest.php'])->shouldBeCalled();
+        $this->command->run([$arg]);
     }
 }

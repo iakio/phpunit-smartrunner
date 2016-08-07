@@ -22,6 +22,12 @@ class RunCommand
 
     private $fs;
 
+    /**
+     * RunCommand constructor.
+     * @param Phpunit $phpunit
+     * @param Cache $cache
+     * @param FileSystem $fs
+     */
     public function __construct(Phpunit $phpunit, Cache $cache, FileSystem $fs)
     {
         $this->phpunit = $phpunit;
@@ -50,8 +56,17 @@ class RunCommand
         if (count($hits) === 0 && self::isTestable($file_name)) {
             $hits = [$file_name];
         }
+        $hits = array_filter($hits, function ($hit) use ($file_name) {
+            if ($this->fs->fileExists($hit)) {
+                return true;
+            } else {
+                $this->cache->remove($file_name, $hit);
+                $this->cache->saveCache();
+                return false;
+            }
+        });
         if (count($hits) > 0) {
-            $this->fs->saveSuiteFile($hits);
+            $this->fs->saveSuiteFile(array_values($hits));
             $this->phpunit->exec('-c .smartrunner/phpunit.xml.dist SmartrunnerSuite .smartrunner/suite.php');
         }
     }
