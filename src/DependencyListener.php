@@ -56,7 +56,8 @@ class DependencyListener extends PHPUnit_Framework_BaseTestListener
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        $this->handler->endTest($test);
+        $class = new ReflectionClass($test);
+        $this->handler->endTest($class->getFileName());
     }
 
     /**
