@@ -97,6 +97,6 @@ class DependencyHandler
 
     public function endTestSuite()
     {
-        $this->cache->saveCache();
+        $this->fs->saveCache($this->cache);
     }
 }

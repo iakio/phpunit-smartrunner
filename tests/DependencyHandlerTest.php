@@ -61,7 +61,7 @@ class DependencyHandlerTest extends \PHPUnit_Framework_TestCase
 
     public function test_stop_coverage()
     {
-        $this->cache->saveCache()->shouldBeCalled();
+        $this->fs->saveCache($this->cache)->shouldBeCalled();
         $this->handler->endTestSuite();
     }
 }

@@ -108,7 +108,7 @@ class RunCommandTest extends \PHPUnit_Framework_TestCase
             ->shouldBeCalled()
             ->willReturn($related_tests);
         $this->cache->remove('src/Calc.php', 'tests/BankAccountTest.php')->shouldBeCalled();
-        $this->cache->saveCache()->shouldBeCalled();
+        $this->fs->saveCache($this->cache)->shouldBeCalled();
 
         $this->fs->cacheDir()->willReturn('.smartrunner');
         $this->fs->fileExists('tests/BankAccountTest.php')->willReturn(false);

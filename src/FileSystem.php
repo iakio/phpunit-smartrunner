@@ -88,19 +88,26 @@ class FileSystem
         return is_dir($this->cache_dir);
     }
 
-    public function saveCache($cache_data)
+    /**
+     * @param Cache $cache
+     */
+    public function saveCache(Cache $cache)
     {
         $this->ensureDirectory();
-        file_put_contents($this->cache_file, json_encode($cache_data, JSON_PRETTY_PRINT));
+        file_put_contents($this->cache_file, json_encode($cache->all(), JSON_PRETTY_PRINT));
     }
 
+    /**
+     * @return Cache
+     */
     public function loadCache()
     {
+        $cache_data = [];
         if (file_exists($this->cache_file)) {
-            return json_decode(file_get_contents($this->cache_file), true);
+            $cache_data = json_decode(file_get_contents($this->cache_file), true);
         }
 
-        return [];
+        return new Cache($this, $cache_data);
     }
 
     public function saveSuiteFile($files)

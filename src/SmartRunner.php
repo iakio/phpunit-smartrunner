@@ -21,8 +21,7 @@ class SmartRunner
     {
         $fs = new FileSystem(getcwd());
         $config = $fs->loadConfig();
-        $cache = new Cache($fs);
-        $cache->loadCache();
+        $cache = $fs->loadCache();
         $phpunit = new Phpunit($config['phpunit']);
 
         return new RunCommand($phpunit, $cache, $fs);

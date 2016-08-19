@@ -26,8 +26,7 @@ class DependencyListener extends PHPUnit_Framework_BaseTestListener
     {
         $root = getcwd();
         $fs = new FileSystem($root);
-        $cache = new Cache($fs);
-        $cache->loadCache();
+        $cache = $fs->loadCache();
         $config = $fs->loadConfig();
         if (function_exists('phpdbg_start_oplog')) {
             $driver = new PhpdbgDriver();

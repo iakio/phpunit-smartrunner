@@ -9,6 +9,7 @@
 
 namespace iakio\phpunit\smartrunner\tests;
 
+use iakio\phpunit\smartrunner\Cache;
 use iakio\phpunit\smartrunner\Config;
 use iakio\phpunit\smartrunner\FileSystem;
 use org\bovigo\vfs\vfsStream;
@@ -30,12 +31,12 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
 
     public function test_cache()
     {
-        $cache = [
+        $cache = new Cache($this->fs, [
             'tests\CalcTest.php' => [
                 'src\BankAccount.php',
                 'src\Calc.php',
             ],
-        ];
+        ]);
         $this->fs->saveCache($cache);
         $this->assertEquals($cache, $this->fs->loadCache());
     }

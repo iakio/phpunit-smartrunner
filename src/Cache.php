@@ -12,7 +12,7 @@ namespace iakio\phpunit\smartrunner;
 class Cache
 {
     /**
-     * @var string[]
+     * @var array
      */
     private $cache;
 
@@ -24,21 +24,12 @@ class Cache
     /**
      * Cache constructor.
      * @param FileSystem $fs
+     * @param array $cache
      */
-    public function __construct(FileSystem $fs)
+    public function __construct(FileSystem $fs, $cache = [])
     {
-        $this->cache = [];
+        $this->cache = $cache;
         $this->fs = $fs;
-    }
-
-    public function loadCache()
-    {
-        $this->cache = $this->fs->loadCache();
-    }
-
-    public function saveCache()
-    {
-        $this->fs->saveCache($this->cache);
     }
 
     /**
@@ -83,5 +74,13 @@ class Cache
         if (array_key_exists($key, $this->cache)) {
             unset($this->cache[$key][$val]);
         }
+    }
+
+    /**
+     * @return array
+     */
+    public function all()
+    {
+        return $this->cache;
     }
 }

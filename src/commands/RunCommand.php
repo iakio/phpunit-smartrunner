@@ -56,13 +56,12 @@ class RunCommand
         if (count($hits) === 0 && self::isTestable($file_name)) {
             $hits = [$file_name];
         }
-        var_dump($hits);
         $hits = array_filter($hits, function ($hit) use ($file_name) {
             if ($this->fs->fileExists($hit)) {
                 return true;
             } else {
                 $this->cache->remove($file_name, $hit);
-                $this->cache->saveCache();
+                $this->fs->saveCache($this->cache);
                 return false;
             }
         });
