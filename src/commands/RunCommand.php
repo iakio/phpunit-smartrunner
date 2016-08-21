@@ -61,7 +61,7 @@ class RunCommand
                 return true;
             } else {
                 $this->cache->remove($file_name, $hit);
-                $this->cache->saveCache();
+                $this->fs->saveCache($this->cache);
                 return false;
             }
         });
